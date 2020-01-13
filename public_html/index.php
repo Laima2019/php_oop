@@ -2,46 +2,88 @@
 
 require '../bootloader.php';
 
-require ROOT. '/core/classes/FileDB.php';
-require ROOT. '/app/classes/User.php';
+require ROOT . '/core/classes/FileDB.php';
+require ROOT . '/app/classes/User.php';
+require ROOT . '/app/classes/Drink/Drink.php    ';
 
+// I uzduotis
+$sandwich = [
+    'price' => 2,
+    'size' => 'XL'
+];
 
+$table_name = 'sumustiniai';
 
-$creds = ['Aurimas', 'psw'];
-$user1 = new User($creds);
-var_dump($user1);
+//sukuriame objekta kuris valdys musu duombaze db.txt
+$file_Db = new \Core\FileDB(DB_FILE);
+$file_Db->createTable($table_name);
+$file_Db->insertRow($table_name, $sandwich);
+$file_Db->save();
 
-$fileDb = new \core\FileDB(DB_FILE);
-$fileDb->load();
+//var_dump($file_Db);
 
-$users = $fileDb->getData();
-$users[] = $user1->getCredentials();
+// II uzduotis
 
-$fileDb->setData($users);
-$fileDb->save();
-var_dump($fileDb);
+$creds = [
+    [
+        'username' => 'alius',
+        'password' => 'meskutis'
+    ],
+    [
+        'username' => 'lukas',
+        'password' => 'mcburgeris'
+    ],
+];
+// table name nurodo kokia bus lentele duomenu bazeje
+$table_name = 'users';
+$user = new User($creds);
+$file_Db->createTable($table_name);
+// arba galima taip irasyti
+//$file_Db->createTable('users');
+$file_Db->insertRow($table_name, $creds[0]);
+$file_Db->insertRow($table_name, $creds[1]);
+$file_Db->save();
 
-//objekto sukurimas = new File, ir visos klases sudejimas i si variabla $file_db
-$file_db = new \Core\FileDB(DB_FILE);
+// III uzduotis
+// siuo zemiau esanciu kodu ieskome password meskutis duomenu bazeje useriu lenteleje
+$file_Db->getRowsWhere('users', ['password' => 'meskutis']);
 
-$file_db->getData();
-//paduodame set data , o lauztiniai skliaustai todel, kad turi buti  arejus
-$file_db->setData(['array']);
+// IV uzduotis
+//$drink = new Drink();
+//$drink->setData([
+//    'name' => 'Vodka',
+//    'abarot' => 40,
+//    'amount' => 5
+//]);
 
-// i save nereikia nieko paduoti, nes prie function save() nebuvo jokiu parametru ()
-$file_db->save();
-$file_db->load();
+// V uzduotis class drink yra vienas gerimas, ir ji galima uzpildyti pavadinimu, img
+
+$drink1 = new Drink();
+
+$drink1->setName('CocaCola');
+//var_dump($drink1);
+$drink2 = new Drink();
+$drink2->setData([
+    'name' => 'svyturys',
+    'abarot' => 7.2,
+    'amount' => 5,
+    'image' => 'img'
+]);
+//var_dump($drink2);
+var_dump($drink2->getData());
+var_dump($drink2->getData());
+var_dump($drink1->setName('Cola')->setAmount(3)->setAbarot(24));
 
 ?>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="media/css/normalize.css">
-        <link rel="stylesheet" href="media/css/milligram.min.css">
-        <link rel="stylesheet" href="media/css/style.css">		
-        <title>OOP</title>
-    </head>
-    <body>
-		<h1>Darome HIP, darome OOP</h1>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="media/css/normalize.css">
+    <link rel="stylesheet" href="media/css/milligram.min.css">
+    <link rel="stylesheet" href="media/css/style.css">
+    <title>OOP</title>
+</head>
+<body>
+<h1>Darome OOP</h1>
+</body>
 </html>

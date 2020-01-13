@@ -13,8 +13,6 @@ class FileDB
         $this->file_name = $file_name;
     }
 
-
-
     /**
      * returnina visus duomenis gauti duomenis, grazins areju arba null
      * @return array|null
@@ -66,7 +64,7 @@ class FileDB
      * @param $table_name
      * @return bool
      */
-    public function createTable($table_name)
+    public function createTable(string $table_name)
     {
         if (!$this->tableExists($table_name)) {
             $this->data[$table_name] = [];
@@ -87,7 +85,7 @@ class FileDB
         return false;
     }
 
-    // istriname visa lentele
+    // istriname visa lentele is $this->$data  (kai dedame $this pasiekiame properties)
 
     /**
      * @param $table_name
@@ -126,8 +124,10 @@ class FileDB
             }
         } else {
             $this->data[$table_name][] = $row;
-            // funkcija array_key_last randa paskutini indeksa, bet sioje vietojeparodo kokiu indeksu irase
-            return array_key_last($this->data[$table_name]);
+            // funkcija array_key_last randa paskutini indeksa, bet sioje vietoje parodo kokiu indeksu irase
+            // realiai si funkcija zemiau veikia tik storm aukstesnia versija
+//            return array_key_last($this->data[$table_name]);
+            return array_keys($this->data[$table_name])[count($this->data[$table_name])-1];
         }
     }
 
@@ -187,6 +187,28 @@ class FileDB
 
         }
         return false;
+    }
+    //$conditions arejus kuriame t.b. vardas ir paswordas, arba duomenu bazeje $data, lenteleje
+    //
+    public function getRowsWhere($table_name, array $conditions) {
+        $results =[];
+        foreach ($this->data[$table_name] as $row_id => $row) {
+            $found = true;
+            foreach ($conditions as $condition_key => $condition_value) {
+                // $row_value visiskai naujas variablas  ji sukuriame ir jam priskiriame $row[$condition_key]
+               // t.y. vardas , t.y Alius
+                $row_value = $row[$condition_key];
+// jeigu zemiau: alius nera alius
+                if($row_value != $condition_value) {
+                    $found = false;
+                    break;
+                 }
+            }
+            if ($found == true) {
+                $results[] =$row;
+            }
+        }
+        return $results;
     }
 }
 
