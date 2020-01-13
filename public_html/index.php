@@ -1,7 +1,7 @@
 <?php
 
 require '../bootloader.php';
-
+// uzlaudinus bootloader'i nebereikes pareguirinti atskiru klasiu, viename bootlauder bus
 require ROOT . '/core/classes/FileDB.php';
 require ROOT . '/app/classes/User.php';
 require ROOT . '/app/classes/Drink/Drink.php    ';
@@ -57,22 +57,28 @@ $file_Db->getRowsWhere('users', ['password' => 'meskutis']);
 //]);
 
 // V uzduotis class drink yra vienas gerimas, ir ji galima uzpildyti pavadinimu, img
-
-$drink1 = new Drink();
-
-$drink1->setName('CocaCola');
 //var_dump($drink1);
 $drink2 = new Drink();
 $drink2->setData([
     'name' => 'svyturys',
     'abarot' => 7.2,
     'amount' => 5,
-    'image' => 'img'
+    'image' => 'http://www.google.com/url?image'
 ]);
 //var_dump($drink2);
 var_dump($drink2->getData());
-var_dump($drink2->getData());
-var_dump($drink1->setName('Cola')->setAmount(3)->setAbarot(24));
+
+//VII sukurta drink objekta su fileDB irasyti ji faila(table drink)
+$drink3 = new Drink([
+        'name' =>'absenth',
+        'amount_ml'=> 700,
+        'abarot' => 60,
+        'image' => 'http://....'
+]);
+//$file_Db = new FileDB(DB_FILE);
+$file_Db->createTable('drinks');
+$file_Db->insertRow('drinks', $drink3->getData());
+$file_Db->save();
 
 ?>
 <html>
