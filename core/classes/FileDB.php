@@ -11,6 +11,7 @@ class FileDB
     public function __construct($file_name)
     {
         $this->file_name = $file_name;
+        $this->load();
     }
 
     /**
@@ -133,12 +134,11 @@ class FileDB
 
     /** ar aplamai egzistuoja tokia eilute
      * @param string $table_name
-     * @param string $row
      * @param int $row_id
      * @return bool
      */
-    public function rowExist(string $table_name, string $row, int $row_id){
-        if(!isset($this->data[$table_name][$row_id])){
+    public function rowExists(string $table_name, int $row_id){
+        if(isset($this->data[$table_name][$row_id])){
             return true;
         }
         return false;
@@ -151,7 +151,7 @@ class FileDB
      * @return int|null
      */
     public function updateRow(string $table_name, int $row_id, array $row): ?int {
-        if ($this->rowExist($table_name,$row_id )) {
+        if ($this->rowExists($table_name,$row_id)) {
             $this->data[$table_name][$row_id] = $row;
             return true;
         }
@@ -164,7 +164,7 @@ class FileDB
      * @return bool
      */
     public function deleteRow(string $table_name, int $row_id) {
-        if ($this->rowExist($table_name,$row_id )) {
+        if ($this->rowExists($table_name,$row_id )) {
             // istriname eilutes duomenis, bet paliekame eilutes indeksa:
             $this->data[$table_name][$row_id] = [];
             //istrins visa eilute su visu indeksu:
@@ -181,7 +181,7 @@ class FileDB
      * @return bool
      */
     public function getRow(string $table_name, int $row_id) {
-        if ($this->rowExist($table_name,$row_id )) {
+        if ($this->rowExists($table_name,$row_id )) {
             return
             $this->data[$table_name][$row_id];
 
@@ -189,7 +189,7 @@ class FileDB
         return false;
     }
     //$conditions arejus kuriame t.b. vardas ir paswordas, arba duomenu bazeje $data, lenteleje
-    //
+    // getRowWhere esme surasti eilutes pagal kazkokius conditions, ji isfiltruoja ir grazina
     public function getRowsWhere($table_name, array $conditions) {
         $results =[];
         foreach ($this->data[$table_name] as $row_id => $row) {
@@ -205,10 +205,22 @@ class FileDB
                  }
             }
             if ($found == true) {
-                $results[] =$row;
+                // rezultatus deda automatiniu indeksu $results[] =$row; o reikia, kad konkreciu
+
+                $results[$row_id] =$row;
             }
         }
         return $results;
+    }
+
+    /**
+     * __ iskviecia sistema , t.y automatiskai,  kai pasibaigia kodas, funkcija
+     */
+    public function __destruct()
+    {
+        // TODO: Implement __destruct() method.
+
+        $this->save();
     }
 }
 
