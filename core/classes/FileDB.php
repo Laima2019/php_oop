@@ -45,7 +45,6 @@ class FileDB
         }
 
         return false;
-
     }
 
     // tuomet duomenis galima pasiekti
@@ -80,9 +79,10 @@ class FileDB
      */
     public function tableExists($table_name)
     {
-        if (!isset($this->data[$table_name])) {
+        if (isset($this->data[$table_name])) {
             return true;
         }
+
         return false;
     }
 
@@ -125,6 +125,7 @@ class FileDB
             }
         } else {
             $this->data[$table_name][] = $row;
+
             // funkcija array_key_last randa paskutini indeksa, bet sioje vietoje parodo kokiu indeksu irase
             // realiai si funkcija zemiau veikia tik storm aukstesnia versija
 //            return array_key_last($this->data[$table_name]);
@@ -219,7 +220,6 @@ class FileDB
     public function __destruct()
     {
         // TODO: Implement __destruct() method.
-
         $this->save();
     }
 }

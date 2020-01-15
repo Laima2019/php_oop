@@ -46,7 +46,8 @@ class Model
     {
         return $this->db->updateRow($this->table_name, $drink->getID(), $drink->getData());
     }
+
     public function delete(Drink $drink){
-        return $this->db->deleteRow($this->table_name, $drink->getID());
+        return $this->db->deleteRow($this->table_name, $drink->getId());
     }
 }

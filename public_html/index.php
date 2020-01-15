@@ -1,140 +1,108 @@
 <?php
 
+use App\Drinks\Model;
+
 require '../bootloader.php';
 
-//// I uzduotis
-//$sandwich = [
-//    'price' => 2,
-//    'size' => 'XL'
-//];
-//
-//$table_name = 'sumustiniai';
-//
-////sukuriame objekta kuris valdys musu duombaze db.txt
-//$file_Db = new \Core\FileDB(DB_FILE);
-//$file_Db->createTable($table_name);
-//$file_Db->insertRow($table_name, $sandwich);
-//$file_Db->save();
-//
-////var_dump($file_Db);
-//
-//// II uzduotis
-//
-////$creds = [
-////    [
-////        'username' => 'alius',
-////        'password' => 'meskutis'
-////    ],
-////    [
-////        'username' => 'lukas',
-////        'password' => 'mcburgeris'
-////    ],
-////];
-////// table name nurodo kokia bus lentele duomenu bazeje
-////$table_name = 'users';
-////$user = new User($creds);
-////$file_Db->createTable($table_name);
-////// arba galima taip irasyti
-//////$file_Db->createTable('users');
-////$file_Db->insertRow($table_name, $creds[0]);
-////$file_Db->insertRow($table_name, $creds[1]);
-////$file_Db->save();
-//
-//// III uzduotis
-//// siuo zemiau esanciu kodu ieskome password meskutis duomenu bazeje useriu lenteleje
-////$file_Db->getRowsWhere('users', ['password' => 'meskutis']);
-//
-//// IV uzduotis
-////$drink = new Drink();
-////$drink->setData([
-////    'name' => 'Vodka',
-////    'abarot' => 40,
-////    'amount' => 5
-////]);
-//
-//// V uzduotis class drink yra vienas gerimas, ir ji galima uzpildyti pavadinimu, img
-////var_dump($drink1);
-//$drink2 = new \App\Drinks();
-//$drink2->setData([
-//    'name' => 'svyturys',
-//    'abarot' => 7.2,
-//    'amount' => 5,
-//    'image' => 'http://www.google.com/url?image'
-//]);
-////var_dump($drink2);
-//var_dump($drink2->getData());
-//
-////VII sukurta drink objekta su fileDB irasyti ji faila(table drink)
-//$drink3 = new \App\Drinks\Drink([
-//        'name' =>'absenth',
-//        'amount_ml'=> 700,
-//        'abarot' => 60,
-//        'image' => 'http://....'
-//]);
-////$file_Db = new FileDB(DB_FILE);
-//$file_Db->createTable('drinks');
-//$file_Db->insertRow('drinks', $drink3->getData());
-//$file_Db->save();
+$form = [
+    'callbacks' => [
+        'success' => 'form_success',
+        'fail' => 'form_fail',
+    ],
+    'attr' => [
+        'action' => 'index.php',
+        'method' => 'POST'
+    ],
+    'fields' => [
+        'name' => [
+            'label' => 'Pavadinimas',
+            'type' => 'text',
+            'extra' => [
+                'attr' => [
+                    'placeholder' => 'pvz: Absolut',
+                ],
+                'validators' => [
+                    'validate_not_empty',
+                ]
+            ]
+        ],
+        'amount' => [
+            'label' => 'kiekis',
+            'type' => 'number',
+            'extra' => [
+                'attr' => [
+                    'placeholder' => 'pvz: 500',
+                ],
+                'validators' => [
+                    'validate_not_empty',
+                    'validate_is_number'
+                ]
+            ]
+        ],
+        'abarot' => [
+            'label' => 'abarot',
+            'type' => 'number',
+            'extra' => [
+                'attr' => [
+                    'placeholder' => 'pvz: 4.4',
+                    'step' => '0.1'
+                ],
+                'validators' => [
+                    'validate_not_empty',
+                    'validate_is_number'
+                ]
+            ],
+        ],
+        'image' => [
+            'label' => 'nuotraukos (url)',
+            'type' => 'text',
+            'extra' => [
+                'attr' => [
+                    'placeholder' => 'pvz: http://..',
+                ],
+                'validators' => [
+                    'validate_not_empty',
+                ]
+            ]
+        ]
+    ],
+    'buttons' => [
+        'save' => [
+            'title' => 'Sukurti',
+            'extra' => [
+                'att' => [
+                    'class' => 'save-btn',
+                ]
+            ]
+        ]
+    ],
+];
+
+function form_success($input, &$form)
+{
+    $modelDrinks = new App\Drinks\Model();
+    $drink = new\App\Drinks\Drink($input);
+
+    $modelDrinks->insert($drink);
+}
 
 
-//$drink = New App\Drinks\Drink([
-//        'name' => 'Svoboda',
-//        'abarot' => 55,
-//        'amount' => 700,
-//        'image' => '/media/images',
-//]);
-//$modelDrinks = New App\Drinks\Model();
-//$modelDrinks->insert($drink);
-//
-//$drinks = $modelDrinks->get(['name' => 'Svoboda']);
-//
-//foreach ($drinks as $drink) {
-//    $drink->setName('Absinth');
-//    var_dump($drink);
-//    $modelDrinks->update($drink);
-//}
-//
-//$drinksAll = $modelDrinks->get([]);
-//var_dump("Drinks all", $drinksAll);
-//
-//i duomenu baze itraukti 4 gerimus ir HTML ispausdinti
-$drink1 = New App\Drinks\Drink(
-    [
-    'name' => 'craft',
-    'abarot' => 3.8,
-    'amount' => 500,
-    'image' => 'https://www.assorti.lt/cache/images/02df30b4e48356b3bfa4e0300c51dfb5.jpg',
-    ]);
-$drink2 = New App\Drinks\Drink(
-    [
-    'name' => 'Somersby',
-    'abarot' => 2.5,
-    'amount' => 350,
-    'image' => 'https://www.barbora.lt/api/Images/GetInventoryImage?id=6db3dbec-7eab-4089-8cfa-e3ff834199d2',
-    ]);
-$drink3 = New App\Drinks\Drink(
-    [
-    'name' => 'Pils',
-    'abarot' => 5.6,
-    'amount' => 450,
-    'image' => 'https://products2.imgix.drizly.com/ci-pilsner-urquell-68942c4af233c846.jpeg?auto=format%2Ccompress&fm=jpeg&q=20',
-    ]);
-$drink4 = New App\Drinks\Drink(
-    [
-        'name' => 'Horse Piss',
-        'abarot' => 0.5,
-        'amount' => 350,
-        'image' => 'https://cdn.beeradvocate.com/im/beers/29204.jpg',
-    ]);
+function form_fail(&$form, $input)
+{
+    $form['message'] = 'form fail';
+}
+
+if (!empty($_POST)) {
+    $input = get_form_input($form);
+    $success = validate_form($input, $form);
+} else {
+    $success = false;
+}
+
 $modelDrinks = new App\Drinks\Model();
-$modelDrinks->insert($drink1);
-$modelDrinks->insert($drink2);
-$modelDrinks->insert($drink3);
-$modelDrinks->insert($drink4);
-
 $drinks = $modelDrinks->get([]);
-?>
 
+?>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -144,19 +112,25 @@ $drinks = $modelDrinks->get([]);
     <title>OOP</title>
 </head>
 <body>
-<h1>Darome OOP</h1>
+<?php require ROOT . '/core/templates/form/form.tpl.php'; ?>
+
 <section class="container">
     <?php foreach ($drinks as $drink): ?>
         <div class="drink_container">
-            <div class="card">
-            <span><?php print $drink->getName(); ?></span>
-            <span><?php print $drink->getAbarot(); ?></span>
-            <span><?php print $drink->getAmount(); ?></span>
+            <div class="card_name">
+                <span><?php print $drink->getName(); ?></span>
             </div>
-            <img src="<?php print $drink->getImage(); ?>">
+            <div class="card_abarot">
+                <span><?php print $drink->getAbarot(); ?></span>
+            </div>
+            <div class="card_amount">
+                <span><?php print $drink->getAmount(); ?></span>
+            </div>
+            <div class="card_image">
+                <img src="<?php print $drink->getImage(); ?>">
+            </div>
         </div>
     <?php endforeach; ?>
-
 </section>
 </body>
 </html>

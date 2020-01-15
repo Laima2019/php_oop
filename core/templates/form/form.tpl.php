@@ -1,9 +1,9 @@
-<?php if (isset($data) && !empty($data)): ?>
+<?php if (isset($form) && !empty($form)): ?>
     <div class='form-wrapper'>
-        <form <?php print html_attr($data['attr'] ?? ['method' => 'POST']); ?>>
+        <form <?php print html_attr(($form['attr'] ?? []) + ['method' => 'POST']); ?>>
 
             <!--Start Field Generation-->
-            <?php foreach ($data['fields'] as $field_id => $field): ?>
+            <?php foreach ($form['fields'] as $field_id => $field): ?>
                 <div class="field-wrapper">
 
                     <?php if (isset($field['label'])): ?>
@@ -19,7 +19,7 @@
                             <?php require 'elements/input.tpl.php'; ?>
                         <?php elseif ($field['type'] === 'select'): ?>
                             <?php require 'elements/select.tpl.php'; ?>
-                        <?php endif; ?> 
+                        <?php endif; ?>
 
                         <?php if (isset($field['label'])): ?>
                         </label>
@@ -36,17 +36,17 @@
             <?php endforeach; ?>
             <!--Field Generator End-->
 
-            <?php if (isset($data['message'])): ?>
+            <?php if (isset($form['message'])): ?>
                 <div class="message-wrapper">
-                    <?php print $data['message']; ?>
+                    <?php print $form['message']; ?>
                 </div>
             <?php endif; ?>
             
-            <?php if (isset($data['buttons']) && !empty($data['buttons'])): ?>
+            <?php if (isset($form['buttons']) && !empty($form['buttons'])): ?>
                 <div class="button-wrapper">
 
                     <!--Generate all the buttons-->
-                    <?php foreach ($data['buttons'] as $button_id => $button): ?>
+                    <?php foreach ($form['buttons'] as $button_id => $button): ?>
                         <?php require 'elements/button.tpl.php'; ?>
                     <?php endforeach; ?>
                     <!--Button Generator End-->
