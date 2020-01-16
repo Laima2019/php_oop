@@ -1,3 +1,10 @@
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
 .container {
     display: flex;
     justify-content: center;
@@ -9,10 +16,19 @@
     padding: 20px;
     margin: auto;
     border: 3px solid darkslategrey ;
+}
+.drink_align{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
 
 }
 img {
+    object-fit: cover;
     max-height: 200px;
+    margin: 0 auto;
+    padding: 5px;
     }
 .card {
     border: 2px solid darkslategrey;
@@ -20,5 +36,16 @@ img {
 }
 .card_name, .card_abarot, .card_amount, .card_image {
     border: 1px solid darkcyan;
-    background-color: rosybrown;
+    background-color: darkgrey;
+    font-size: 16px;
+    font-weight: bold;
+}
+.user {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid gray;
+    height: 250px;
+    width: 220px;
+    text-align: center;
 }

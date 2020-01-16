@@ -15,6 +15,7 @@ $form = [
     ],
     'fields' => [
         'name' => [
+                'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             'label' => 'Pavadinimas',
             'type' => 'text',
             'extra' => [
