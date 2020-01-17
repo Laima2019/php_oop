@@ -103,6 +103,9 @@ if (!empty($_POST)) {
 $modelDrinks = new App\Drinks\Model();
 $drinks = $modelDrinks->get([]);
 
+$view = [];
+$view['form'] = new \App\Views\Form($form);
+//$view['nav'] = new\App\Views\Navigation($data);
 ?>
 <html>
 <head>
@@ -113,7 +116,8 @@ $drinks = $modelDrinks->get([]);
     <title>OOP</title>
 </head>
 <body>
-<?php require ROOT . '/core/templates/form/form.tpl.php'; ?>
+<?php require ROOT . '/app/templates/navigation.tpl.php'; ?>
+<?php print $view['form']->render(); ?>
 
 <section class="container">
     <?php foreach ($drinks as $drink): ?>

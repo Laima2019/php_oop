@@ -94,6 +94,9 @@ if (!empty($_POST)) {
 $modelUsers = new App\Users\Model();
 $users = $modelUsers->get([]);
 
+$view = [];
+$view['form'] = new \App\Views\Form($form);
+//$view['nav'] = new\App\Views\Navigation($data);
 ?>
 <html>
 <head>
@@ -104,7 +107,7 @@ $users = $modelUsers->get([]);
     <title>User</title>
 </head>
 <body>
-<?php require ROOT . '/core/templates/form/form.tpl.php'; ?>
+<?php print $view['form']->render(); ?>
 
 <section class="container">
     <?php foreach ($users as $user): ?>

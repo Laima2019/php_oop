@@ -5,6 +5,28 @@ form {
     align-items: center;
     margin: 10px;
 }
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: silver;
+    height: 60px;
+}
+.nav-btn {
+    background-color: rosybrown;
+    border-radius: 10px;
+    border: 1px solid rosybrown;
+    color: coral;
+    padding: 10px 20px;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+.nav-btn:hover{
+    transition: 2ms;
+    border: 1px solid dimgrey;
+    font-size: 110%;
+    box-shadow: 5px 5px dimgray;
+}
 .container {
     display: flex;
     justify-content: center;

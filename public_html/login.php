@@ -80,8 +80,9 @@ if (!empty($_POST)) {
 }
 $show_form = !$success;
 
-$view = new \Core\View($form);
-
+$view = [];
+$view['form'] = new \App\Views\Form($form);
+//$view['nav'] = new\App\Views\Navigation($data);
 
 ?>
 <html>
@@ -96,7 +97,7 @@ $view = new \Core\View($form);
 <body>
 <div class="login-form">
     <?php if ($show_form): ?>
-    <?php print $view->render(ROOT . '/core/templates/form/form.tpl.php'); ?>
+    <?php print $view['form']->render(); ?>
     <?php endif; ?>
 </div>
 </body>
