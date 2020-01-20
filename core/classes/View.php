@@ -12,7 +12,8 @@ class View
     {
         $this->data = $data;
     }
-
+///template generuoja html is masyvo !!!  template yra file
+/// $data =$this->data kiekviename template yra variablas datathis datagalima pasiekti
     public function render($template_path)
     {
         if (!file_exists($template_path)) {

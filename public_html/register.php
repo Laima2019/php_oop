@@ -96,7 +96,7 @@ $users = $modelUsers->get([]);
 
 $view = [];
 $view['form'] = new \App\Views\Form($form);
-//$view['nav'] = new\App\Views\Navigation($data);
+$view['nav'] = new\App\Views\Navigation();
 ?>
 <html>
 <head>
@@ -108,6 +108,7 @@ $view['form'] = new \App\Views\Form($form);
 </head>
 <body>
 <?php print $view['form']->render(); ?>
+<?php print $view['nav']->render(); ?>
 
 <section class="container">
     <?php foreach ($users as $user): ?>

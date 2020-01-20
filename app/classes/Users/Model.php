@@ -5,6 +5,9 @@ namespace App\Users;
 
 use App\App;
 
+// Su Model klase, mes galime įrašyti/atnaujinti/ištrinti į duombazę User dataholderius
+// Taip pat, nurodę kondicijas, galime gauti (pagal informaciją duombazėje) User dataholderių masyvą
+// musm reikia tokio tools su kuriuo galima todel sukuria new model pxv sesion klaseje
 class Model
 {
     private $table_name = 'Users';
@@ -18,7 +21,8 @@ class Model
     {
         return App::$db->insertRow($this->table_name, $user->getData());
     }
-
+// funkcija get istraukiame duomenis condition yra checkina email  ir pasword su duomenu bazeje esanciu user masyvu ir jeigu atitinka
+//
     public function get($conditions)
     {
         $users_objects = [];

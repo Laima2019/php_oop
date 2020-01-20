@@ -105,7 +105,7 @@ $drinks = $modelDrinks->get([]);
 
 $view = [];
 $view['form'] = new \App\Views\Form($form);
-//$view['nav'] = new\App\Views\Navigation($data);
+$view['nav'] = new\App\Views\Navigation();
 ?>
 <html>
 <head>
@@ -116,7 +116,7 @@ $view['form'] = new \App\Views\Form($form);
     <title>OOP</title>
 </head>
 <body>
-<?php require ROOT . '/app/templates/navigation.tpl.php'; ?>
+<?php print $view['nav']->render(); ?>
 <?php print $view['form']->render(); ?>
 
 <section class="container">

@@ -9,12 +9,14 @@ class App
 {
     //This $db property  has common value through all App objects
     public static $db;
+    public static $session;
 
     public function __construct()
     {
         // inside class, static variables
         // are accessed with self:: $static_variable_name
-        self::$db = New \Core\FileDB(DB_FILE);
+        self::$db = new \Core\FileDB(DB_FILE);
+        self::$session = new \Core\Session();
     }
 }
 

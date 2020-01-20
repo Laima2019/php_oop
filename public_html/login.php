@@ -18,6 +18,9 @@ $form = [
         'action' => 'login.php',
         'method' => 'POST'
     ],
+    'validators' => [
+           'validate_login'
+],
     'fields' => [
             'email' => [
             'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -82,7 +85,7 @@ $show_form = !$success;
 
 $view = [];
 $view['form'] = new \App\Views\Form($form);
-//$view['nav'] = new\App\Views\Navigation($data);
+$view['nav'] = new\App\Views\Navigation();
 
 ?>
 <html>
@@ -93,11 +96,17 @@ $view['form'] = new \App\Views\Form($form);
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login</title>
+    <link rel="stylesheet" href="media/css/normalize.css">
+    <link rel="stylesheet" href="media/css/milligram.min.css">
+    <link rel="stylesheet" href="media/css/style.css">
 </head>
 <body>
+<?php print $view['nav']->render(); ?>
+
 <div class="login-form">
     <?php if ($show_form): ?>
     <?php print $view['form']->render(); ?>
+
     <?php endif; ?>
 </div>
 </body>
