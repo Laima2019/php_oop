@@ -215,7 +215,10 @@ class FileDB
     }
 
     /**
-     * __ iskviecia sistema , t.y automatiskai,  kai pasibaigia kodas, funkcija
+     * __destruct iskviecia sistema , t.y automatiskai,
+     * 1 kai pasibaigia kodas,
+     * 2 kai buna funkcijos viduje sukurtas ojektas, ir kai pasibaigia pati funkcija
+     * 3 unset
      */
     public function __destruct()
     {

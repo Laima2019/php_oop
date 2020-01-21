@@ -30,3 +30,22 @@ print $array[0]->getName();
 
 $users = [];
 $users[] = new User();
+
+//
+
+class StatinisZmogus
+{
+
+    public static $name;
+
+}
+
+//$z = new StatinisZmogus();
+//$z->name = 'Laimzeza';
+
+StatinisZmogus::$name = 'laimeza';
+
+// Klases viduj ($this->name)
+
+
+

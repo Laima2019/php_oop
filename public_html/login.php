@@ -65,10 +65,7 @@ $form = [
 ];
 
 function form_success($input, &$form){
-    $_SESSION['email'] = $input ['email'];
-    $_SESSION['password'] = $input ['password'];
-
-        header ('Location:/index.php');
+    header ('Location:/index.php');
 }
 
 function form_fail($input, &$form) {

@@ -13,8 +13,10 @@ class Drink
         'amount',
         'abarot',
         'image',
-        'id'
-    ];
+        'id',
+        'price',
+        'in_stock'
+            ];
 
     /**
      * @param mixed $data
@@ -62,6 +64,23 @@ class Drink
     public function getImage()
     {
         return $this->data['image'];
+    }
+    public function setPrice(float $price)
+    {
+        $this->data['price'] = $price;
+    }
+    public function getPrice()
+    {
+        return $this->data['price'];
+    }
+    public function setInStock(int $in_stock)
+    {
+        $this->data['in_stock'] = $in_stock;
+    }
+
+    public function getInStock()
+    {
+        return $this->data['in_stock'];
     }
 
     // Note bene kiekvienai klasei turi buti savas konstruktorius, bet gali konstruktoriaus ir nebuti

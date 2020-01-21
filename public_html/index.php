@@ -65,7 +65,35 @@ $form = [
                     'validate_not_empty',
                 ]
             ]
-        ]
+        ],
+        'price' => [
+            'label' => 'price',
+            'type' => 'number',
+            'extra' => [
+                'attr' => [
+                    'placeholder' => 'pvz: 4.4',
+                    'step' => '0.1'
+                ],
+                'validators' => [
+                    'validate_not_empty',
+                    'validate_is_number'
+                ]
+            ],
+        ],
+        'in_stock' => [
+            'label' => 'in_stock',
+            'type' => 'number',
+            'extra' => [
+                'attr' => [
+                    'placeholder' => 'pvz: 4',
+                    'step' => '0.1'
+                ],
+                'validators' => [
+                    'validate_not_empty',
+                    'validate_is_number'
+                ]
+            ],
+        ],
     ],
     'buttons' => [
         'save' => [
@@ -77,6 +105,29 @@ $form = [
             ]
         ]
     ],
+];
+$form_delete = [
+    'attr' => [
+        'action' => 'index.php',
+        'class' => 'my-form',
+        'id' => 'login_form'
+    ],
+    'buttons' => [
+        'delete' => [
+            'title' => 'Ištrinti',
+            'extra' => [
+                'att' => [
+                    'class' => 'save-btn',
+                ]
+            ]
+        ]
+    ],
+];
+
+$catalog = [
+//        ['form' => {Drink Object}
+//        'form_delete' => {Form Object}
+//]
 ];
 
 function form_success($input, &$form)
@@ -116,8 +167,12 @@ $view['nav'] = new\App\Views\Navigation();
     <title>OOP</title>
 </head>
 <body>
+
 <?php print $view['nav']->render(); ?>
-<?php print $view['form']->render(); ?>
+<?php if (App\App::$session->userLoggedIn()): ?>
+
+<?php   print $view['form']->render(); ?>
+<?php endif; ?>
 
 <section class="container">
     <?php foreach ($drinks as $drink): ?>
@@ -134,8 +189,17 @@ $view['nav'] = new\App\Views\Navigation();
             <div class="card_image">
                 <img src="<?php print $drink->getImage(); ?>">
             </div>
+            <div class="card_price">
+                <span><?php print $drink->getPrice() . ""; ?></span>
+            </div>
         </div>
-    <?php endforeach; ?>
+        <div class="In_stock_container">
+            <div class="card_instock">
+            <span> Sandelyje:<?php print $drink->getInStock(); ?></span>
+        </div>
+            <?php print $item['form_delete']->render(); ?>
+        </div>
+        <?php endforeach; ?>
 </section>
 </body>
 </html>
