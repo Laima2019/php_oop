@@ -50,6 +50,6 @@ class Model
     }
 
     public function delete(Drink $drink){
-        return App::$db>deleteRow($this->table_name, $drink->getId());
+        return App::$db->deleteRow($this->table_name, $drink->getId());
     }
 }

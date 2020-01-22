@@ -3,7 +3,7 @@
         <form <?php print html_attr(($data['attr'] ?? []) + ['method' => 'POST']); ?>>
 
             <!--Start Field Generation-->
-            <?php foreach ($data['fields'] as $field_id => $field): ?>
+            <?php foreach ($data['fields'] ?? [] as $field_id => $field): ?>
                 <div class="field-wrapper">
 
                     <?php if (isset($field['label'])): ?>

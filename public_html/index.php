@@ -4,7 +4,7 @@ use App\Drinks\Model;
 
 require '../bootloader.php';
 
-$form = [
+$form_create = [
     'callbacks' => [
         'success' => 'form_success',
         'fail' => 'form_fail',
@@ -15,7 +15,7 @@ $form = [
     ],
     'fields' => [
         'name' => [
-                'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
             'label' => 'Pavadinimas',
             'type' => 'text',
             'extra' => [
@@ -96,7 +96,7 @@ $form = [
         ],
     ],
     'buttons' => [
-        'save' => [
+        'create' => [
             'title' => 'Sukurti',
             'extra' => [
                 'att' => [
@@ -107,10 +107,31 @@ $form = [
     ],
 ];
 $form_delete = [
+    'callbacks' => [
+        'success' => 'form_success_delete',
+        'fail' => 'form_fail',
+    ],
     'attr' => [
         'action' => 'index.php',
         'class' => 'my-form',
         'id' => 'login_form'
+    ],
+    'fields' => [
+        'id' => [
+//            'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
+            'label' => 'Pavadinimas',
+            'type' => 'text',
+            'value' => null,
+            'extra' => [
+                'attr' => [
+                    'id' => 'name',
+                    'placeholder' => 'pvz: ID',
+                ],
+                'validators' => [
+                    'validate_not_empty',
+                ]
+            ]
+        ],
     ],
     'buttons' => [
         'delete' => [
@@ -121,16 +142,11 @@ $form_delete = [
                 ]
             ]
         ]
-    ],
+    ]
 ];
 
-$catalog = [
-//        ['form' => {Drink Object}
-//        'form_delete' => {Form Object}
-//]
-];
 
-function form_success($input, &$form)
+function form_success_create($input, &$form)
 {
     $modelDrinks = new App\Drinks\Model();
     $drink = new\App\Drinks\Drink($input);
@@ -138,25 +154,64 @@ function form_success($input, &$form)
     $modelDrinks->insert($drink);
 }
 
+function form_success_delete($input, &$form)
+{
+
+    $modelDrinks = new App\Drinks\Model();
+    $drink = new\App\Drinks\Drink($input);
+
+    $modelDrinks->delete($drink);
+}
 
 function form_fail(&$form, $input)
 {
     $form['message'] = 'form fail';
 }
 
-if (!empty($_POST)) {
-    $input = get_form_input($form);
-    $success = validate_form($input, $form);
-} else {
+//if (!empty($_POST)) {
+//    if (get_form_action() == 'create'){
+//    $input = get_form_input($form_create);
+//
+//    $success = validate_form($input, $form_create);
+//}
+//    elseif (get_form_action() == 'delete'){
+//    $input = get_form_input($form_delete);
+//
+//    $success = validate_form($input, $form_delete);
+//}
+//    else {
+//    $success = false;
+//    }
+//}
+if(!empty($_POST)) {
+    switch (get_form_action()){
+        case 'delete':
+            $input = get_form_input($form_delete);
+            $success = validate_form($input, $form_delete);
+            break;
+        case 'create':
+            $input = get_form_input($form_create);
+            $success = validate_form($input, $form_create);
+            break;
+    }
     $success = false;
 }
-
-$modelDrinks = new App\Drinks\Model();
+$modelDrinks = new \App\Drinks\Model();
 $drinks = $modelDrinks->get([]);
 
+$catalog = [];
+
+foreach ($drinks as $drink) {
+    $form_delete['fields']['id']['value'] = $drink->getId();
+    $catalog[] = [
+        'dataholder' => $drink,
+        'form_delete' => new \App\Views\Form($form_delete)
+    ];
+}
+
 $view = [];
-$view['form'] = new \App\Views\Form($form);
-$view['nav'] = new\App\Views\Navigation();
+$view['form'] = new \App\Views\Form($form_create);
+$view['nav'] = new \App\Views\Navigation();
 ?>
 <html>
 <head>
@@ -171,35 +226,31 @@ $view['nav'] = new\App\Views\Navigation();
 <?php print $view['nav']->render(); ?>
 <?php if (App\App::$session->userLoggedIn()): ?>
 
-<?php   print $view['form']->render(); ?>
+    <?php print $view['form']->render(); ?>
 <?php endif; ?>
 
-<section class="container">
-    <?php foreach ($drinks as $drink): ?>
-        <div class="drink_container">
-            <div class="card_name">
-                <span><?php print $drink->getName(); ?></span>
+<section class="flex">
+    <?php foreach ($catalog as $item): ?>
+        <div class="flex_container">
+            <div class="flex_card">
+                <img src="<?php print $item['dataholder']->getImage(); ?>">
+            <div class="flex_name">
+                <div><?php print $item['dataholder']->getName(); ?></div>
+                <?php print $item['dataholder']->getAmount(); ?>
+                <?php print $item['dataholder']->getAbarot(); ?>
             </div>
-            <div class="card_abarot">
-                <span><?php print $drink->getAbarot(); ?></span>
+            <div class="position_abs">
+                <?php print $item['dataholder']->getPrice() . ""; ?>
             </div>
-            <div class="card_amount">
-                <span><?php print $drink->getAmount(); ?></span>
-            </div>
-            <div class="card_image">
-                <img src="<?php print $drink->getImage(); ?>">
-            </div>
-            <div class="card_price">
-                <span><?php print $drink->getPrice() . ""; ?></span>
+            <div class="drink_card">
+                    Sandelyje:<?php print $item['dataholder']->getInStock(); ?>
+                </div>
+                <div>
+                <?php print $item['form_delete']->render(); ?>
             </div>
         </div>
-        <div class="In_stock_container">
-            <div class="card_instock">
-            <span> Sandelyje:<?php print $drink->getInStock(); ?></span>
-        </div>
-            <?php print $item['form_delete']->render(); ?>
-        </div>
-        <?php endforeach; ?>
+
+    <?php endforeach; ?>
 </section>
 </body>
 </html>

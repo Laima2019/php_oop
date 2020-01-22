@@ -5,7 +5,7 @@ namespace App\Drinks;
 
 
 class Drink
-// sioje klaseje turime seteriu ir geteriu metodus
+// sioje klaseje turime seteriu ir geteriu metodus  get grazina areju is objektu
 {
     private $data;
     private $properties = [
