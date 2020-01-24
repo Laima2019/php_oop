@@ -4,6 +4,8 @@
 namespace App\Orders;
 
 use App\App;
+use App\Drinks\Drink;
+
 // Model yra tarpininkas tarp duombazes
 class Model
 {
@@ -18,6 +20,7 @@ class Model
 
     public function insert(Order $order)
     {
+        var_dump($order->getData());
         return App::$db->insertRow($this->table_name, $order->getData());
     }
 
@@ -49,5 +52,18 @@ class Model
     public function delete(Order $order)
     {
         return App::$db->deleteRow($this->table_name, $order->getId());
+    }
+
+    public function getById($id)
+    {
+        // get row atiduoda vieno order'o areju
+        $order_data = App::$db->getRow($this->table_name, $id);
+        // is to grazinto vieno arejaus sukuriamas new order objektas//
+        if ($order_data) {
+            $order = new Order($order_data);
+            $order->setId($id);
+            return $order;
+        }
+        return null;
     }
 }

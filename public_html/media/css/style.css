@@ -13,7 +13,7 @@
     align-items: center;
     position: relative;
     padding: 10px 10px;
-    margin: ;
+    margin: 10px;
 }
 .stock-color{
     color: lightslategrey;
@@ -50,7 +50,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: lightslategrey;
+    background: lightgrey;
     height: 60px;
 }
 .nav-btn {
@@ -69,6 +69,12 @@ nav {
     border: 1px solid coral;
     font-size: 110%;
     box-shadow: 5px 5px coral;
+}
+img {
+    object-fit: cover;
+    max-height: 200px;
+    margin: 0 auto;
+    padding: 5px;
 }
 
 /*form {*/

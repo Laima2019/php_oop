@@ -10,7 +10,8 @@ class Navigation extends \Core\View
     {
         $this->data = [
             'left' => [
-                ['title' => 'Home', 'url' =>'/index.php']
+                ['title' => 'Home', 'url' =>'/index.php'],
+                ['title' => 'Orders', 'url' =>'/order.php']
             ],
             'right' => [
                'login' => ['title' => 'Login', 'url' => '/login.php'],

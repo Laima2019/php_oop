@@ -13,7 +13,7 @@ class Model
 
     public function __construct()
     {
- //use Core\FileDB;
+        //use Core\FileDB;
 //        $this->db = New \Core\FileDB(DB_FILE);
 //        $this->db->createTable($this->table_name);
 //        var_dump(App::$db);
@@ -44,24 +44,30 @@ class Model
 
         return $drinks_objects;
     }
+
     // getById grazina objekta is eilutes duomenu
     public function getById($id)
     {
         // get row atiduoda vieno drink'o areju
         $drink_data = App::$db->getRow($this->table_name, $id);
 //            var_dump($drink_data, $id);
-    // is to grazinto vieno arejaus sukuriamas new drink objektas//
+        // is to grazinto vieno arejaus sukuriamas new drink objektas//
+        if ($drink_data) {
             $drink = new Drink($drink_data);
             $drink->setId($id);
-        return $drink;
+            return $drink;
         }
+
+        return null;
+    }
 
     public function update(Drink $drink)
     {
         return App::$db->updateRow($this->table_name, $drink->getID(), $drink->getData());
     }
 
-    public function delete(Drink $drink){
+    public function delete(Drink $drink)
+    {
         return App::$db->deleteRow($this->table_name, $drink->getId());
     }
 }

@@ -7,27 +7,33 @@ namespace App\Orders;
 class Order
 {
     private $data;
-    private $properties =
-    [
-    'id',
-    'drink_id',
-    'timestamp',
-    'status'
+    private $properties = [
+        'id',
+        'drink_id',
+        'timestamp',
+        'status'
     ];
-    public function setId(int $id){
+
+    public function setId(int $id)
+    {
         $this->data['id'] = $id;
     }
+
     public function getId()
     {
         return $this->data['id'] ?? null;
     }
-    public function setDrinkId(int $drink_id){
-        $this->data['drinkid'] = $drink_id;
+
+    public function setDrinkId(int $drink_id)
+    {
+        $this->data['drink_id'] = $drink_id;
     }
+
     public function getDrinkId()
     {
-        return $this->data['id'] ?? null;
+        return $this->data['drink_id'] ?? null;
     }
+
     public function setTimeStamp(int $time_stamp)
     {
         $this->data['timestamp'] = $time_stamp;
@@ -37,6 +43,7 @@ class Order
     {
         return $this->data['timestamp'];
     }
+
     public function setStatus(string $status)
     {
         $this->data['status'] = $status;
@@ -70,6 +77,7 @@ class Order
 //            var_dump($data);
         }
     }
+
 // getData grazina masyva , si funkcija tai yra iskviecia visus geterius (get name, get amount....)
     public function getData(): array
     {
@@ -80,9 +88,11 @@ class Order
         }
         return $data;
     }
+
     // si funkcija zemiau tam reikalinga kai kuriant objekta, galime butu iskarta paduoti duomenis, nebereiktu set
-    public function __construct(array $data = null){
-        if ($data){
+    public function __construct(array $data = null)
+    {
+        if ($data) {
             return $this->setData($data);
         }
     }

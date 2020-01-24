@@ -117,7 +117,7 @@ function form_success_edit($input, &$form)
     $modelDrinks = new App\Drinks\Model();
     $drink = new\App\Drinks\Drink($input);
     $drink->setId($_GET['id']);
-//    var_dump($drink);
+
     $modelDrinks->update($drink);
 }
 

@@ -190,10 +190,10 @@ $form_edit = [
     'attr' => [
         'method' => 'GET',
         'action' => 'edit-drink.php',
-         ],
+    ],
     'fields' => [
         'id' => [
-                'type' => 'hidden',
+            'type' => 'hidden',
         ],
     ],
     'buttons' => [
@@ -225,23 +225,24 @@ function form_success_delete($input, &$form)
     $modelDrinks->delete($drink);
 
 }
+
 function form_success_order($input, &$form)
 {
     $modelOrders = new App\Orders\Model();
     $order = new\App\Orders\Order([
         'timestamp' => time(),
         'drink_id' => $input['id'],
-        'status' => $input['status'],
+        'status' => 'Uzsakyta',
     ]);
+
     $modelOrders->insert($order);
+
     $modelDrinks = new \App\Drinks\Model();
     $drink = $modelDrinks->getById($input['id']);
 
-    $in_stock_get = $drink->getInStock()-1;
+    $in_stock_get = $drink->getInStock() - 1;
     $drink->setInStock($in_stock_get);
     $modelDrinks->update($drink);
-
-
 }
 
 
@@ -265,8 +266,8 @@ function form_fail(&$form, $input)
 //    $success = false;
 //    }
 //}
-if(!empty($_POST)) {
-    switch (get_form_action()){
+if (!empty($_POST)) {
+    switch (get_form_action()) {
         case 'create':
             $input = get_form_input($form_create);
             $success = validate_form($input, $form_create);
@@ -306,7 +307,6 @@ foreach ($drinks as $drink) {
     ];
 
 
-
 }
 $view = [];
 $view['form'] = new \App\Views\Form($form_create);
@@ -329,10 +329,12 @@ $view['nav'] = new \App\Views\Navigation();
 <?php endif; ?>
 
 <section class="flex">
-    <?php foreach ($catalog as $item): ?>
-        <div class="flex_container">
-            <div class="flex_card">
-                <img src="<?php print $item['dataholder']->getImage(); ?>">
+    <?php foreach ($catalog
+
+    as $item): ?>
+    <div class="flex_container">
+        <div class="flex_card">
+            <img src="<?php print $item['dataholder']->getImage(); ?>">
             <div class="flex_name">
                 <div><?php print $item['dataholder']->getName(); ?></div>
                 <?php print $item['dataholder']->getAmount(); ?>
@@ -342,20 +344,20 @@ $view['nav'] = new \App\Views\Navigation();
                 <?php print $item['dataholder']->getPrice() . ""; ?>
             </div>
             <div class="drink_card">
-                    Sandelyje:<?php print $item['dataholder']->getInStock(); ?>
-                </div>
-                <div>
+                Sandelyje:<?php print $item['dataholder']->getInStock(); ?>
+            </div>
+            <div>
                 <?php print $item['form_delete']->render(); ?>
             </div>
-                <div>
-                    <?php print $item['form_order']->render(); ?>
-                </div>
-                <div>
-                    <?php print $item['form_edit']->render(); ?>
-                </div>
+            <div>
+                <?php print $item['form_order']->render(); ?>
+            </div>
+            <div>
+                <?php print $item['form_edit']->render(); ?>
+            </div>
         </div>
 
-    <?php endforeach; ?>
+        <?php endforeach; ?>
 </section>
 </body>
 </html>
