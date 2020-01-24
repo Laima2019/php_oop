@@ -1,7 +1,7 @@
 <?php
 
 namespace Core;
-
+//data visa info, kuri
 class FileDB
 {
 
@@ -73,7 +73,7 @@ class FileDB
         return false;
     }
 
-    /**
+    /** ar egzistuoja lentele duombazeje
      * @param $table_name
      * @return bool
      */
@@ -176,17 +176,16 @@ class FileDB
     }
 
 
-    /** grazina eilute is table pagal $row_id
+    /** grazina eilute is table pagal $row_id (get row  grazina areju is db
      * @param string $table_name
      * @param int $row_id
      * @return bool
      */
     public function getRow(string $table_name, int $row_id) {
-        if ($this->rowExists($table_name,$row_id )) {
-            return
-            $this->data[$table_name][$row_id];
-
+        if ($this->rowExists($table_name, $row_id)) {
+            return $this->data[$table_name][$row_id];
         }
+
         return false;
     }
     //$conditions arejus kuriame t.b. vardas ir paswordas, arba duomenu bazeje $data, lenteleje
@@ -218,7 +217,7 @@ class FileDB
      * __destruct iskviecia sistema , t.y automatiskai,
      * 1 kai pasibaigia kodas,
      * 2 kai buna funkcijos viduje sukurtas ojektas, ir kai pasibaigia pati funkcija
-     * 3 unset objekto variabla
+     * 3 unset objekto variabla $drink =new Drink() unset($drink)
      */
     public function __destruct()
     {

@@ -5,6 +5,7 @@ namespace App\Drinks;
 
 use App\App;
 
+// Model yra tarpininkas tarp duombazes (t.y. iraso objektus i duombaze ir  grazins objektus)
 class Model
 {
     private $table_name = 'drinks';
@@ -43,6 +44,17 @@ class Model
 
         return $drinks_objects;
     }
+    // getById grazina objekta is eilutes duomenu
+    public function getById($id)
+    {
+        // get row atiduoda vieno drink'o areju
+        $drink_data = App::$db->getRow($this->table_name, $id);
+//            var_dump($drink_data, $id);
+    // is to grazinto vieno arejaus sukuriamas new drink objektas//
+            $drink = new Drink($drink_data);
+            $drink->setId($id);
+        return $drink;
+        }
 
     public function update(Drink $drink)
     {
