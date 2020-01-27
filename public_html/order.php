@@ -10,13 +10,13 @@ $form_delivery_btn = [
         'fail' => 'form_fail',
     ],
     'attr' => [
-        'method' =>'POST',
-            ],
+        'method' => 'POST',
+    ],
     'fields' => [
         'id' => [
             'type' => 'hidden',
-                ],
-         ],
+        ],
+    ],
     'buttons' => [
         'deliver' => [
             'title' => 'Pristatyti',
@@ -29,7 +29,8 @@ $form_delivery_btn = [
     ]
 ];
 
-function form_success_delivery($input, &$form){
+function form_success_delivery($input, &$form)
+{
     $modelOrders = new \App\Orders\Model();
     $order = $modelOrders->getById($input['id']);
     $order->setStatus('delivered');
@@ -48,18 +49,18 @@ $modelDrinks = new \App\Drinks\Model();
 $drink = new App\Drinks\Drink();
 
 $drinks_orders_array = [];
-foreach ($orders as $order){
+foreach ($orders as $order) {
 //    var_dump($order->getDrinkId());
-   $form_delivery_btn['fields']['id']['value'] = $order->getId();
+    $form_delivery_btn['fields']['id']['value'] = $order->getId();
 
 //    var_dump($drink);
     $drinks_orders_array [] = [
         'order' => $order,
         'drink' => $modelDrinks->getById($order->getDrinkId()),
-        'delivery_form'=> new \App\Views\Form($form_delivery_btn),
+        'delivery_form' => new \App\Views\Form($form_delivery_btn),
     ];
 }
-if(!empty($_POST)){
+if (!empty($_POST)) {
     $input = get_form_input($form_delivery_btn);
     $success = validate_form($input, $form_delivery_btn);
 }
@@ -79,23 +80,23 @@ if(!empty($_POST)){
 <table>
     <tr>
         <th>Gėrimo pavadinimas</th>
-        <th>Uzsakymo ID</th>
-        <th>Gerimo ID</th>
+        <th>Užsakymo ID</th>
+        <th>Gėrimo ID</th>
         <th>Data</th>
-        <th>status</th>
+        <th>Status</th>
         <th>veiksmai</th>
 
     </tr>
-        <?php foreach ($drinks_orders_array as $item): ?>
-    <tr>
-<td><?php print ($item['drink']) ? $item['drink']->getName() : '-'; ?></td>
-<td><?php print $item['order']->getId(); ?></td>
-<td><?php print $item['order']->getDrinkId(); ?></td>
-<td><?php print $item['order']->getTimestamp(); ?></td>
-<td><?php print $item['order']->getStatus(); ?></td>
-<td><?php print $item['delivery_form']->render(); ?></td>
-       <?php endforeach; ?>
-    </tr>
+    <?php foreach ($drinks_orders_array as $item): ?>
+        <tr>
+            <td><?php print ($item['drink']) ? $item['drink']->getName() : '-'; ?></td>
+            <td><?php print $item['order']->getId(); ?></td>
+            <td><?php print $item['order']->getDrinkId(); ?></td>
+            <td><?php print $item['order']->getTimestamp(); ?></td>
+            <td><?php print $item['order']->getStatus(); ?></td>
+            <td><?php if($item['order']->getStatus() == 'užsakyta') print $item['delivery_form']->render(); ?></td>
+        </tr>
+    <?php endforeach; ?>
 
 
 </table>
