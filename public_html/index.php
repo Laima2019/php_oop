@@ -243,6 +243,20 @@ function form_success_order($input, &$form)
     $in_stock_get = $drink->getInStock() - 1;
     $drink->setInStock($in_stock_get);
     $modelDrinks->update($drink);
+
+    $cookie = new \Core\Cookie('tracking');
+    $data = $cookie->read();
+
+
+    if(empty($data)){
+        $data = [
+                'count' => 1
+        ];
+        } else {
+        $data['count']++;
+
+        $cookie->save($data, 60);
+    }
 }
 
 
@@ -329,13 +343,11 @@ $view['nav'] = new \App\Views\Navigation();
 <?php endif; ?>
 
 <section class="flex">
-    <?php foreach ($catalog
-
-    as $item): ?>
-    <div class="flex_container">
-        <div class="flex_card">
+    <?php foreach ($catalog as $item): ?>
+    <div class="container">
+        <div class="drink_card">
             <img src="<?php print $item['dataholder']->getImage(); ?>">
-            <div class="flex_name">
+            <div class="drink_name">
                 <div><?php print $item['dataholder']->getName(); ?></div>
                 <?php print $item['dataholder']->getAmount(); ?>
                 <?php print $item['dataholder']->getAbarot(); ?>

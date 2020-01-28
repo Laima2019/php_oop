@@ -8,29 +8,12 @@ use App\DataHolder\DataHolder;
 
 class User extends DataHolder
 {
-    private $data;
-    private $properties = [
+
+    protected $properties = [
         'id', 'name', 'email', 'password'
     ];
 
-    public function __construct(array $data = null)
-    {
-        if ($data) {
-            return $this->setData($data);
-        }
-    }
-
-    public function setId(int $id)
-    {
-        $this->data['id'] = $id;
-    }
-
-    public function getId()
-    {
-        return $this->data['id'] ?? null;
-    }
-
-    public function setName(string $name)
+     public function setName(string $name)
     {
         $this->data['name'] = $name;
     }

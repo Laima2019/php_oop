@@ -9,8 +9,7 @@ use App\DataHolder\DataHolder;
 class Drink extends DataHolder
 // sioje klaseje turime seteriu ir geteriu metodus  get grazina areju is objektu
 {
-    private $data;
-    private $properties = [
+     protected $properties = [
         'name',
         'amount',
         'abarot',
@@ -119,16 +118,5 @@ class Drink extends DataHolder
 //        return $data;
 //    }
     // si funkcija zemiau tam reikalinga kai kuriant objekta, galime butu iskarta paduoti duomenis, nebereiktu set
-    public function __construct(array $data = null){
-        if ($data){
-            return $this->setData($data);
-        }
-    }
-    public function setId(int $id){
-        $this->data['id'] = $id;
-    }
-    public function getId()
-    {
-        return $this->data['id'] ?? null;
-    }
+
 }

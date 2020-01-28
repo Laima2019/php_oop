@@ -8,8 +8,7 @@ use App\DataHolder\DataHolder;
 
 class Order extends DataHolder
 {
-    private $data;
-    private $properties = [
+     protected $properties = [
         'id',
         'drink_id',
         'timestamp',
@@ -54,14 +53,6 @@ class Order extends DataHolder
     public function getStatus()
     {
         return $this->data['status'];
-    }
-
-    // si funkcija zemiau tam reikalinga kai kuriant objekta, galime butu iskarta paduoti duomenis, nebereiktu set
-    public function __construct(array $data = null)
-    {
-        if ($data) {
-            return $this->setData($data);
-        }
     }
 }
 

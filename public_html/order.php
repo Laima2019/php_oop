@@ -35,6 +35,8 @@ function form_success_delivery($input, &$form)
     $order = $modelOrders->getById($input['id']);
     $order->setStatus('delivered');
     $modelOrders->update($order);
+
+
 }
 
 $modelOrders = new \App\Orders\Model();

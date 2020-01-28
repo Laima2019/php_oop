@@ -1,157 +1,157 @@
-.flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.form-container {
-    display: block;
-}
-.flex-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    padding: 10px 10px;
-    margin: 10px;
-}
-.stock-color{
-    color: lightslategrey;
-}
-.flex-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid darkolivegreen;
-    margin: 10px 5px;
-    padding: 10px 10px;
-    position: relative;
-}
-.flex-name {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.position-abarot {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-right: 5px;
-}
-.position-price {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin-right: 5px;
-}
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: lightgrey;
-    height: 60px;
-}
-.nav-btn {
-    background: rosybrown;
-    color: orange;
-    border-radius: 10px;
-    border: 1px solid skyblue;
-    padding: 10px 20px;
-    margin-left: 15px;
-    margin-right: 10px;
-}
-.nav-btn:hover {
-    transition: 2ms;
-    background-color: lightslategrey;
-    color: darkcyan;
-    border: 1px solid coral;
-    font-size: 110%;
-    box-shadow: 5px 5px coral;
-}
-img {
-    object-fit: cover;
-    max-height: 200px;
-    margin: 0 auto;
-    padding: 5px;
-}
-
-/*form {*/
+/*.flex {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+/*.form-container {*/
+/*    display: block;*/
+/*}*/
+/*.flex-card {*/
 /*    display: flex;*/
 /*    flex-direction: column;*/
 /*    justify-content: center;*/
 /*    align-items: center;*/
+/*    position: relative;*/
+/*    padding: 10px 10px;*/
 /*    margin: 10px;*/
 /*}*/
-/*.nav {*/
+/*.stock-color{*/
+/*    color: lightslategrey;*/
+/*}*/
+/*.flex-card {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    border: 2px solid darkolivegreen;*/
+/*    margin: 10px 5px;*/
+/*    padding: 10px 10px;*/
+/*    position: relative;*/
+/*}*/
+/*.flex-name {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+/*.position-abarot {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    margin-right: 5px;*/
+/*}*/
+/*.position-price {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    margin-right: 5px;*/
+/*}*/
+/*nav {*/
 /*    display: flex;*/
 /*    justify-content: space-between;*/
 /*    align-items: center;*/
-/*    background-color: silver;*/
+/*    background: lightgrey;*/
 /*    height: 60px;*/
 /*}*/
 /*.nav-btn {*/
-/*    background-color: rosybrown;*/
+/*    background: rosybrown;*/
+/*    color: orange;*/
 /*    border-radius: 10px;*/
-/*    border: 1px solid rosybrown;*/
-/*    color: coral;*/
+/*    border: 1px solid skyblue;*/
 /*    padding: 10px 20px;*/
 /*    margin-left: 15px;*/
 /*    margin-right: 10px;*/
 /*}*/
-/*.nav-btn:hover{*/
+/*.nav-btn:hover {*/
 /*    transition: 2ms;*/
-/*    border: 1px solid dimgrey;*/
+/*    background-color: lightslategrey;*/
+/*    color: darkcyan;*/
+/*    border: 1px solid coral;*/
 /*    font-size: 110%;*/
-/*    box-shadow: 5px 5px dimgray;*/
-/*}*/
-/*.container {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-/*.drink_container {*/
-/*    background-color: rgba(40,23,128, 0.5) ;*/
-/*    display: inline-block;*/
-/*    padding: 20px;*/
-/*    margin: auto;*/
-/*    border: 3px solid darkslategrey ;*/
-/*}*/
-
-/*.drink_align{*/
-/*    display: flex;*/
-/*    flex-direction: row;*/
-/*    align-items: center;*/
-/*    justify-content: space-around;*/
-
+/*    box-shadow: 5px 5px coral;*/
 /*}*/
 /*img {*/
 /*    object-fit: cover;*/
 /*    max-height: 200px;*/
 /*    margin: 0 auto;*/
 /*    padding: 5px;*/
-/*    }*/
-/*.card {*/
-/*    border: 2px solid darkslategrey;*/
-/*    background-color: wheat;*/
 /*}*/
-/*.card_name, .card_abarot, .card_amount, .card_image {*/
-/*    border: 1px solid darkcyan;*/
-/*    background-color: darkgrey;*/
-/*    font-size: 16px;*/
-/*    font-weight: bold;*/
-/*}*/
-/*.card_instock{*/
-/*    flex-direction: column;*/
 
-/*}*/
-/*.user {*/
-/*    position: relative;*/
-/*    display: inline-block;*/
-/*    margin: 10px;*/
-/*    border: 1px solid gray;*/
-/*    height: 250px;*/
-/*    width: 220px;*/
-/*    text-align: center;*/
-/*}*/
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: silver;
+    height: 60px;
+}
+.nav-btn {
+    background-color: rosybrown;
+    border-radius: 10px;
+    border: 1px solid rosybrown;
+    color: coral;
+    padding: 10px 20px;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+.nav-btn:hover{
+    transition: 2ms;
+    border: 1px solid dimgrey;
+    font-size: 110%;
+    box-shadow: 5px 5px dimgray;
+}
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.drink_container {
+    background-color: rgba(40,23,128, 0.5) ;
+    display: inline-block;
+    padding: 20px;
+    margin: auto;
+    border: 3px solid darkslategrey ;
+}
+
+.drink_align{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+}
+img {
+    object-fit: cover;
+    max-height: 200px;
+    margin: 0 auto;
+    padding: 5px;
+    }
+.card {
+    border: 2px solid darkslategrey;
+    background-color: wheat;
+}
+.card_name, .card_abarot, .card_amount, .card_image {
+    border: 1px solid darkcyan;
+    background-color: darkgrey;
+    font-size: 16px;
+    font-weight: bold;
+}
+.card_instock{
+    flex-direction: column;
+
+}
+.user {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    border: 1px solid gray;
+    height: 250px;
+    width: 220px;
+    text-align: center;
+}

@@ -7,7 +7,7 @@ namespace App\DataHolder;
 class DataHolder extends \Core\Abstracts\DataHolder
 {
 
-    protected function setData(array $data)
+    public function setData(array $data)
     {
         foreach ($this->properties as $property) {
             if (isset($data[$property])) {
@@ -26,5 +26,17 @@ class DataHolder extends \Core\Abstracts\DataHolder
             $data[$property] = $this->{$getter}();
         }
         return $data;
+    }
+    public function __construct(array $data = null){
+        if ($data){
+            return $this->setData($data);
+        }
+    }
+    public function setId(int $id){
+        $this->data['id'] = $id;
+    }
+    public function getId()
+    {
+        return $this->data['id'] ?? null;
     }
 }
