@@ -1,84 +1,66 @@
 <?php
 
 namespace Core;
-//data visa info, kuri
-class FileDB
-{
+
+class FileDB  {
 
     private $file_name;
+
+    /** @var array $data */
     private $data;
 
-    public function __construct($file_name)
-    {
+    public function __construct($file_name) {
         $this->file_name = $file_name;
-        $this->load();
     }
 
     /**
-     * returnina visus duomenis gauti duomenis, grazins areju arba null
-     * @return array|null
+     * Loads all data from file to $data
      */
-    public function getData(): ?array
-    {
+    public function load() {
+        if (file_exists($this->file_name)) {
+            $encoded_string = file_get_contents($this->file_name);
+
+            if ($encoded_string !== false) {
+                $this->data = json_decode($encoded_string, true);
+            }
+        }
+    }
+
+    /**
+     * Saves all data to file
+     * @return boolean
+     */
+    public function save() {
+        $string = json_encode($this->data);
+        return file_put_contents($this->file_name, $string);
+    }
+
+    /**
+     * Gets all database data as array
+     * @return type
+     */
+    public function getData() {
+        if ($this->data == null) {
+            $this->load();
+        }
+
         return $this->data;
     }
 
-    //is pradziu paduodame duomenis setData
-
-
-    public function setData($data)
-    {
+    /**
+     * Sets all data from an array
+     * @param type $data
+     */
+    public function setData(array $data) {
         $this->data = $data;
     }
 
-
-
-    /** tada galima duomenis uzsaugoti
-     * @return bool
+    /**
+     * Checks if table exists
+     * @param string $table_name
+     * @return boolean
      */
-    public function save()
-    {
-        $encoded_array = json_encode($this->data);
-        $bytes_written = file_put_contents($this->file_name, $encoded_array);
-        if ($bytes_written !== false) {
-            return true;
-        }
-
-        return false;
-    }
-
-    // tuomet duomenis galima pasiekti
-
-    public function load()
-    {
-        if (file_exists($this->file_name)) {
-            $this->data = json_decode(file_get_contents($this->file_name), true);
-        } else {
-            $this->data = [];
-        }
-    }
-
-
-
-    /**sukuriame nauja lentele, pries tai patikrine gal ji jau egzistuoja
-     * @param $table_name
-     * @return bool
-     */
-    public function createTable(string $table_name)
-    {
-        if (!$this->tableExists($table_name)) {
-            $this->data[$table_name] = [];
-            return true;
-        }
-        return false;
-    }
-
-    /** ar egzistuoja lentele duombazeje
-     * @param $table_name
-     * @return bool
-     */
-    public function tableExists($table_name)
-    {
+    public function tableExists($table_name) {
         if (isset($this->data[$table_name])) {
             return true;
         }
@@ -86,143 +68,172 @@ class FileDB
         return false;
     }
 
-    // istriname visa lentele is $this->$data  (kai dedame $this pasiekiame properties)
-
     /**
-     * @param $table_name
-     * @return bool
+     * Creates a table
+     * @param string $table_name
+     * @return boolean
      */
-    public function dropTable($table_name)
-    {
-        if ($this->tableExists($table_name)) {
-            unset($this->data[$table_name]);
+    public function createTable($table_name) {
+        if (!$this->tableExists($table_name)) {
+            $this->data[$table_name] = [];
             return true;
         }
+
         return false;
     }
 
-    // istriname duomenis is lenteles, bet paliekame pacia lentele
-    public function truncateTable($table_name)
-    {
+    /**
+     * Deletes table from database
+     * @param string $table_name
+     * @return boolean
+     */
+    public function dropTable($table_name) {
+        unset($this->data[$table_name]);
+
+        return true;
+    }
+
+    /**
+     * Deletes all table content
+     * @param string $table_name
+     * @return boolean
+     */
+    public function truncateTable($table_name) {
         if ($this->tableExists($table_name)) {
             $this->data[$table_name] = [];
             return true;
         }
-        return false;
-    }
-    // si funkcija i pasirinkta Table, nauju ar nurodytu indeksu ideda row masyva
-    // irasyti eilutes masyva $row i table $row+id = null, jeigu kvieciant funkcija nepaduosime
-    // trecio paramentro, tai jis bus null, tokia israiska reiskia default
-    // jeigu null istatysime i if () jis nesuveiks
-    public function insertRow($table_name, $row, $row_id = null)
-    {
-        if ($row_id) {
-            if (!($this->rowExists($table_name,$row_id ))) {
-                $this->data[$table_name][$row_id] = $row;
-                return $row_id;
-            } else {
-                return false;
-            }
-        } else {
-            $this->data[$table_name][] = $row;
-
-            // funkcija array_key_last randa paskutini indeksa, bet sioje vietoje parodo kokiu indeksu irase
-            // realiai si funkcija zemiau veikia tik storm aukstesnia versija
-//            return array_key_last($this->data[$table_name]);
-            return array_keys($this->data[$table_name])[count($this->data[$table_name])-1];
-        }
-    }
-
-    /** ar aplamai egzistuoja tokia eilute
-     * @param string $table_name
-     * @param int $row_id
-     * @return bool
-     */
-    public function rowExists(string $table_name, int $row_id){
-        if(isset($this->data[$table_name][$row_id])){
-            return true;
-        }
-        return false;
-    }
-
-    /** i pasirinktos lenteles i pasirinkta  indeksa iraso naujus duomenis nauji duomenis bus array$row
-     * @param string $table_name
-     * @param int $row_id
-     * @param array $row
-     * @return int|null
-     */
-    public function updateRow(string $table_name, int $row_id, array $row): ?int {
-        if ($this->rowExists($table_name,$row_id)) {
-            $this->data[$table_name][$row_id] = $row;
-            return true;
-        }
-        return false;
-    }
-
-    /** istriname visos eilutes duomenis
-     * @param string $table_name
-     * @param int $row_id
-     * @return bool
-     */
-    public function deleteRow(string $table_name, int $row_id) {
-        if ($this->rowExists($table_name,$row_id )) {
-            // istriname eilutes duomenis, bet paliekame eilutes indeksa:
-            $this->data[$table_name][$row_id] = [];
-            //istrins visa eilute su visu indeksu:
-            unset($this->data[$table_name][$row_id]);
-            return true;
-        }
-        return false;
-    }
-
-
-    /** grazina eilute is table pagal $row_id (get row  grazina areju is db
-     * @param string $table_name
-     * @param int $row_id
-     * @return bool
-     */
-    public function getRow(string $table_name, int $row_id) {
-        if ($this->rowExists($table_name, $row_id)) {
-            return $this->data[$table_name][$row_id];
-        }
 
         return false;
-    }
-    //$conditions arejus kuriame t.b. vardas ir paswordas, arba duomenu bazeje $data, lenteleje
-    // getRowWhere esme surasti eilutes pagal kazkokius conditions, ji isfiltruoja ir grazina
-    public function getRowsWhere($table_name, array $conditions) {
-        $results =[];
-        foreach ($this->data[$table_name] as $row_id => $row) {
-            $found = true;
-            foreach ($conditions as $condition_key => $condition_value) {
-                // $row_value visiskai naujas variablas  ji sukuriame ir jam priskiriame $row[$condition_key]
-               // t.y. vardas , t.y Alius
-                $row_value = $row[$condition_key];
-// jeigu zemiau: alius nera alius
-                if($row_value != $condition_value) {
-                    $found = false;
-                    break;
-                 }
-            }
-            if ($found == true) {
-                // rezultatus deda automatiniu indeksu $results[] =$row; o reikia, kad konkreciu
-
-                $results[$row_id] =$row;
-            }
-        }
-        return $results;
     }
 
     /**
-     * __destruct iskviecia sistema , t.y automatiskai,
-     * 1 kai pasibaigia kodas,
-     * 2 kai buna funkcijos viduje sukurtas ojektas, ir kai pasibaigia pati funkcija
-     * 3 unset objekto variabla $drink =new Drink() unset($drink)
+     * Inserts row to table
+     * @param string $table
+     * @param array $row
+     * @param string|integer $row_id
+     * @return boolean
      */
-    public function __destruct()
-    {
-        // TODO: Implement __destruct() method.
+    public function insertRow($table, $row, $row_id = null) {
+        if ($this->tableExists($table)) {
+            if ($row_id) {
+                $this->data[$table][$row_id] = $row;
+            } else {
+                $this->data[$table][] = $row;
+            }
+
+            return key(array_slice($this->data[$table], -1, 1, true));
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if row exists in table
+     * @param string $table
+     * @param mixed $row_id
+     * @return boolean
+     */
+    public function rowExists($table, $row_id) {
+        if (isset($this->data[$table][$row_id])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Updates row content in a given row_id
+     * @param string $table
+     * @param string|number $row_id
+     * @param array $row
+     * @return boolean
+     */
+    public function updateRow($table, $row_id, $row) {
+        if ($this->rowExists($table, $row_id)) {
+            $this->data[$table][$row_id] = $row;
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Creates a row if it doesn't exist in table
+     * @param string $table
+     * @param string|integer $row_id
+     * @param array $row
+     * @return boolean
+     */
+    public function rowInsertIfNotExists($table, $row_id, $row) {
+        if (!$this->rowExists($table, $row_id)) {
+            return $this->insertRow($table, $row, $row_id); // insertRow function returns boolean
+        }
+
+        return false;
+    }
+
+    /**
+     * Deletes row from table
+     * @param string $table
+     * @param string|number $row_id
+     * @return boolean
+     */
+    public function deleteRow($table, $row_id) {
+        if ($this->rowExists($table, $row_id)) {
+            unset($this->data[$table][$row_id]);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets content from row
+     * @param string $table
+     * @param string|number $row_id
+     * @return boolean
+     */
+    public function getRow($table, $row_id) {
+        if ($this->rowExists($table, $row_id)) {
+            return $this->data[$table][$row_id];
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets content from row where conditions exist
+     * @param string $table
+     * @param array $conditions
+     * @return array
+     */
+    public function getRowsWhere($table, $conditions) {
+        $rows = [];
+        foreach ($this->data[$table] as $row_id => $row) {
+            $condition_met = true;
+            foreach ($conditions as $condition_id => $condition) {
+                if ($condition_id === 'row_id') {
+                    if ($row_id != $condition) {
+                        $condition_met = false;
+                        break;
+                    }
+                } else if ($row[$condition_id] !== $condition) {
+                    $condition_met = false;
+                    break;
+                }
+            }
+
+            if ($condition_met) {
+                $rows[$row_id] = $row;
+            }
+        }
+        return $rows;
+    }
+
+    public
+            function __destruct() {
         $this->save();
     }
-}
 
+}

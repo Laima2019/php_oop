@@ -1,48 +1,72 @@
 <?php
 
-
 namespace App\Users;
 
-use App\App;
+use \App\App;
 
-// Su Model klase, mes galime įrašyti/atnaujinti/ištrinti į duombazę User dataholderius
-// Taip pat, nurodę kondicijas, galime gauti (pagal informaciją duombazėje) User dataholderių masyvą
-// musm reikia tokio tools su kuriuo galima todel sukuria new model pxv sesion klaseje
+
 class Model
 {
-    private $table_name = 'Users';
-    private $db;
+
+    private $table_name = 'users';
 
     public function __construct()
     {
         App::$db->createTable($this->table_name);
     }
-    public function insert(User $user)
-    {
+
+    /** 2uzd turi irasyti $drink i duombaze
+     * @param Drink $drink
+     */
+    public function insert(User $user) {
         return App::$db->insertRow($this->table_name, $user->getData());
     }
-// funkcija get istraukiame duomenis condition yra checkina email  ir pasword su duomenu bazeje esanciu user masyvu ir jeigu atitinka
-//
-    public function get($conditions)
-    {
-        $users_objects = [];
-        $users_array = App::$db->getRowsWhere($this->table_name, $conditions);
-        foreach ($users_array as $user_id => $user_array) {
 
-            $user = new User($user_array);
-            $user->setId($user_id);
-
-            $users_objects[] = $user;
+    /**
+     * 3uzd
+     * @param array $conditions
+     * @return User[]
+     */
+    public function get($conditions = []) {
+        $users = [];
+        
+        $rows = App::$db->getRowsWhere($this->table_name, $conditions);
+        foreach ($rows as $row_id => $row) {
+            $row['id'] = $row_id;
+            $users[] = new User($row);
         }
-
-        return $users_objects;
+        
+        return $users;
     }
 
+    /**
+     * 4uzd
+     * @param Drink $drink
+     * @return bool
+     */
     public function update(User $user)
     {
-        return App::$db->updateRow($this->table_name, $user->getID(), $user->getData());
+        return App::$db->updateRow($this->table_name, $user->getId(), $user->getData());
     }
-    public function delete(User $user){
-        return App::$db->deleteRow($this->table_name, $user->getId());
+
+    /**
+     * 5uzd istrinti table
+     * @param Drink $drink
+     * @return bool
+     */
+    public function delete(User $user)
+    {
+        App::$db->deleteRow($this->table_name, $user->getId());
+    }
+
+    public function deleteAll() {
+        App::$db->truncateTable($this->table_name);
+    }
+
+    public function __destruct()
+    {
+        App::$db->save();
     }
 }
+
+?>

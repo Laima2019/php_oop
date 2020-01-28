@@ -1,28 +1,30 @@
 <?php
 
-
 namespace Core;
 
-
-class Cookie extends \Core\Abstracts\Cookie
+class Cookie
 {
-
     /**
-     * Konstruktorius paprasčiausia turi nuset'tintis $name
+     * Cookie pavadinimas
+     *
+     * Jis naudojamas tiek nuskaitant duomenis iš
+     * $_COOKIE, tiek funkcijoje setcookie
+     * @var string
      */
-    public function __construct(string $name)
+    public function __construct($name)
     {
         $this->name = $name;
     }
 
     /**
-     * Turi patikrinti ar cookie duotu pavadinimu
-     * egzistuoja
+     * Turi patikrinti ar cookie duotu pavadinimu egzistuoja
      */
     public function exists(): bool
     {
-        if (isset($this->name)) {
+        if (isset($_COOKIE[$this->name])) {
             return true;
+        } else {
+            return false;
         }
     }
 
@@ -30,20 +32,24 @@ class Cookie extends \Core\Abstracts\Cookie
      * Turi return'inti json_decode'intą cookie'o
      * turinį.
      *
-     * Jei nepavyko json_decode'inti,
-     * return'inti tuščią array
+     * Patikrinti ar pavyko json_decode'inti
+     * (Use Google)
+     * Jei nepavyko, funkcija turi mesti warning'ą
+     * (ne EXCEPTION'ą, bet WARNING'ą - Use Google).
+     * ir return'inti tuščią array
      *
      * Jei cookie'is nustatytu pavadinimu neegzistuoja,
      * turi return'inti tuščią array'ų
      */
     public function read(): array
     {
-        $cookie_array = [];
-        if (isset($_COOKIE[$this->name])) {
-            return json_decode(($_COOKIE[$this->name]), true);
+        $array = json_decode($_COOKIE[$this->name], true);
+        if ($array) {
+            return $array;
         } else {
-            return $cookie_array;
+            trigger_error('Nepavyko dekodinti Bl*t!', E_USER_WARNING);
         }
+        return [];
     }
 
     /**
@@ -64,8 +70,8 @@ class Cookie extends \Core\Abstracts\Cookie
      */
     public function save(array $data, int $expires_in = 3600): void
     {
-        $cookie_string = json_encode($data);
-        setcookie($this->name, $cookie_string, $expires_in);
+        $string = json_encode($data);
+        setcookie($this->name, $string, time() + $expires_in, "/");
     }
 
     /**
@@ -74,6 +80,7 @@ class Cookie extends \Core\Abstracts\Cookie
      */
     public function delete(): void
     {
-        setcookie($this->name, null, -1);
+        unset($_COOKIE[$this->name]);
+        setcookie($this->name, null, -1, "/");
     }
 }

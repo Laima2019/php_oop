@@ -1,12 +1,17 @@
-<nav class="nav">
-    <div class="left">
-        <?php foreach ($data['left'] as $link) :?>
-        <a href="<?php print $link['url']; ?>"><?php print $link['title']; ?> </a>
-    <?php endforeach;?>
+<?php if (isset($data) && !empty($data)): ?>
+    <div class="wrapper nav-flex">
+        <nav>
+            <?php foreach ($data as $section_id => $section): ?>
+                <div class="<?php print $section_id; ?>">
+                    <?php foreach ($section as $nav_id => $link): ?>
+                        <div class="link-wrapper <?php print ($link['active'] ?? false) ? 'active' : ''; ?>">
+                            <a href="<?php print $link['url']; ?>">
+                                <?php print $link['title']; ?>
+                            </a>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
+        </nav>
     </div>
-    <div class="right">
-        <?php foreach ($data['right'] as $link) :?>
-            <a href="<?php print $link['url']; ?>"><?php print $link['title']; ?> </a>
-        <?php endforeach;?>
-    </div>
-</nav>
+<?php endif; ?>

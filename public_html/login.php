@@ -1,110 +1,61 @@
 <?php
 
-use App\Users\Model;
+use \App\App;
 
 require '../bootloader.php';
 
-if (isset($_SESSION['email'])){
-    header('location:/index.php');
+$form = new \App\Users\Views\LoginForm();
+$navigation = new \App\Views\Navigation();
+$footer = new \App\Views\Footer();
+
+function form_success($filtered_input, &$form) {
+    App::$session->login(
+            $filtered_input['email'],
+            $filtered_input['password']
+    );
+    header('Location: ' . '/');
 }
 
-$form = [
-    'callbacks' => [
-        'success' => 'form_success',
-        'fail' => 'form_fail',
-    ],
-    'attr' => [
-        'class' => 'my-form',
-        'action' => 'login.php',
-        'method' => 'POST'
-    ],
-    'validators' => [
-           'validate_login'
-],
-    'fields' => [
-            'email' => [
-            'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'label' => 'eMail',
-            'type' => 'text',
-            'extra' => [
-                'attr' => [
-                    'placeholder' => 'pvz: įveskite e-paštą',
-                ],
-                'validators' => [
-                    'validate_not_empty',
-
-                ]
-            ]
-        ],
-        'password' => [
-            'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
-            'label' => 'password',
-            'type' => 'password',
-            'extra' => [
-                'attr' => [
-                    'placeholder' => 'pvz: įveskite slaptažodį',
-                    'step' => '0.1'
-                ],
-                'validators' => [
-                    'validate_not_empty',
-                    //'validate_is_number'
-                ]
-            ],
-        ],
-    ],
-    'buttons' => [
-        'save' => [
-            'title' => 'Login',
-            'extra' => [
-                'att' => [
-                    'class' => 'save-btn',
-                ]
-            ]
-        ]
-    ],
-];
-
-function form_success($input, &$form){
-    header ('Location:/index.php');
+switch (get_form_action()) {
+    case 'submit':
+        $filtered_input = get_form_input($form->getData());
+        validate_form($filtered_input, $form->getData());
+        break;
 }
-
-function form_fail($input, &$form) {
-    $form['message'] = 'Nepavyko';
-}
-
-if (!empty($_POST)) {
-    $input = get_form_input($form);
-    $success = validate_form($input, $form);
-} else {
-    $success = false;
-}
-$show_form = !$success;
-
-$view = [];
-$view['form'] = new \App\Views\Form($form);
-$view['nav'] = new\App\Views\Navigation();
-
 ?>
 <html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-    <link rel="stylesheet" href="media/css/normalize.css">
-    <link rel="stylesheet" href="media/css/milligram.min.css">
-    <link rel="stylesheet" href="media/css/style.css">
-</head>
-<body>
-<?php print $view['nav']->render(); ?>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="media/css/normalize.css">
+        <link rel="stylesheet" href="media/css/milligram.min.css">
+        <link rel="stylesheet" href="media/css/style.css">
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!--    <script defer src="media/js/app.js"></script>-->
+    </head>
+    <body>
+        <!-- Header -->        
+        <header>
+            <?php print $navigation->render(); ?>
+        </header>
 
-<div class="login-form">
-    <?php if ($show_form): ?>
-    <?php print $view['form']->render(); ?>
+        <!-- Main Content -->        
+        <main>
+            <section class="wrapper">
+                <div class="block">
+                    <h1>Prisijungti:</h1>
 
-    <?php endif; ?>
-</div>
-</body>
+                    <!-- Login Form -->
+                    <?php print $form->render(); ?>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->        
+        <footer>
+            <?php print $footer->render(); ?>
+        </footer>
+    </body>
 </html>

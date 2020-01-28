@@ -1,9 +1,9 @@
 <?php if (isset($data) && !empty($data)): ?>
     <div class='form-wrapper'>
-        <form <?php print html_attr(($data['attr'] ?? []) + ['method' => 'POST']); ?>>
+        <form <?php print html_attr($data['attr'] ?? ['method' => 'POST']); ?>>
 
             <!--Start Field Generation-->
-            <?php foreach ($data['fields'] ?? [] as $field_id => $field): ?>
+            <?php foreach ($data['fields'] as $field_id => $field): ?>
                 <div class="field-wrapper">
 
                     <?php if (isset($field['label'])): ?>
@@ -19,7 +19,7 @@
                             <?php require 'elements/input.tpl.php'; ?>
                         <?php elseif ($field['type'] === 'select'): ?>
                             <?php require 'elements/select.tpl.php'; ?>
-                        <?php endif; ?>
+                        <?php endif; ?> 
 
                         <?php if (isset($field['label'])): ?>
                         </label>

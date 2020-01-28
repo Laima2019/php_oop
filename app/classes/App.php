@@ -2,27 +2,23 @@
 
 namespace App;
 
-class App
+class App {
 
-//static db sukuriame tam butu tik vienas duomenu bazes objektas per visa projekta, panaikinama fileDB dublikavima
-
-{
-    //This $db property  has common value through all App objects
+    /** @var \Core\FileDB **/
     public static $db;
+    
+    /** @var \Core\Session **/
     public static $session;
 
-    public function __construct()
-    {
-        // inside class, static variables
-        // are accessed with self:: $static_variable_name
+    public function __construct() {
         self::$db = new \Core\FileDB(DB_FILE);
+        self::$db->load();
+        
         self::$session = new \Core\Session();
     }
+
+    public function __destruct() {
+        self::$db->save();
+    }
+
 }
-
-/*
- * public function __destruct() {
- * self::$db->save;
- * }
- */
-
