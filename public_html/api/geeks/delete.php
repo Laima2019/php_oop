@@ -1,5 +1,4 @@
 <?php
-
 use App\App;
 
 require '../../../bootloader.php';
@@ -8,7 +7,7 @@ $response = new \Core\Api\Response();
 
 if (App::$session->userLoggedIn()) {
 
-    $model = new \App\Participants\Model();
+    $model = new \App\Geeks\Model();
 
     // fetch-as atsiunčia į šitą failą POST metodu duomenis (REQUEST)
     // tie duomenys tai yra formData
@@ -21,15 +20,15 @@ if (App::$session->userLoggedIn()) {
     // bet visada ideda ji i masyva. (nes funkcija pritaikyta atiduoti ir daugiau drinku
     // nei viena)
     // Todel pavadinam variabla ne drink, o drinks.
-    $participants = $model->get(['row_id' => intval($_POST['id'])]);
+    $geeks = $model->get(['row_id' => intval($_POST['id'])]);
 
-    if ($participants) {
-        $person = $participants[0];
+    if ($geeks) {
+        $person = $geeks[0];
         $model->delete($person);
 
         $response->setData($person->getData());
     } else {
-        $response->addError('Review doesn`t exist');
+        $response->addError('Geek doesn`t exist');
     }
 } else {
     $response->addError('Authorization failed!');

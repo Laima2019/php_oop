@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Participants\Views;
+
+namespace App\Geeks\Views;
 
 class ApiForm extends \Core\Views\Form
 {
-
-    public function __construct($data = [])
-    {
+    public function __construct($data = []) {
         $this->data = [
-            'callbacks' => [
-                'success' => 'form_success',
-                'fail' => 'form_fail',
-            ],
             'fields' => [
                 'name' => [
                     'extra' => [
@@ -27,13 +22,31 @@ class ApiForm extends \Core\Views\Form
                         ]
                     ]
                 ],
-                'city' => [
+                'level' => [
                     'extra' => [
                         'validators' => [
                             'validate_not_empty'
                         ]
-                    ],
+                    ]
                 ],
+                'attendance' => [
+                    'extra' => [
+                        'validators' => [
+                            'validate_not_empty'
+                        ]
+                    ]
+                ],
+                'score' => [
+                    'extra' => [
+                        'validators' => [
+                            'validate_not_empty'
+                        ]
+                    ]
+                ],
+            ],
+            'callbacks' => [
+                'success' => 'form_success',
+                'fail' => 'form_fail',
             ]
         ];
     }

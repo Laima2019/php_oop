@@ -12,7 +12,7 @@ if (!App::$session->userLoggedIn()) {
 }
 
 // Filter received data
-$form = (new \App\Participants\Views\ApiForm())->getData();
+$form = (new \App\Reviews\Views\ApiForm())->getData();
 $filtered_input = get_form_input($form);
 validate_form($filtered_input, $form);
 
@@ -26,20 +26,22 @@ validate_form($filtered_input, $form);
  */
 function form_success($filtered_input, $form) {
     $response = new \Core\Api\Response();
+    $model = new \App\Reviews\Model();
+    $review = new \App\Reviews\Review();
 
-    $participant = new \App\Participants\Participant($filtered_input);
-    $model = new \App\Participants\Model();
-    $id = $model->insert($participant);
+    $review->setTimeStamp(time());
+    $review->setReview($filtered_input['review']);
+    $review->setUserId(\App\App::$session->getUser()->getId());
 
-    if ($id !== false) {
-        $participant->setId($id);
-        $response->setData($participant->getData());
-    } else {
-        $response->addError('Insert to database failed!');
-    }
+    $model->insert($review);
 
+    $review_arr = $review->getData();
+    $review_arr['time_stamp'] = date('y-m-d', $review_arr['time_stamp']);
+
+    $response->setData($review_arr);
     $response->print();
 }
+
 
 /**
  * If request fails validation

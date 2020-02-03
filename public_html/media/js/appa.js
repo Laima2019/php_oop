@@ -1,10 +1,10 @@
 'use strict';
 
 const endpoints = {
-    get: 'api/participants/get.php',
-    create: 'api/participants/create.php',
-    update: 'api/participants/update.php',
-    delete: 'api/participants/delete.php'
+    get: 'api/geeks/get.php',
+    create: 'api/geeks/create.php',
+    update: 'api/geeks/update.php',
+    delete: 'api/geeks/delete.php'
 };
 
 /**
@@ -250,9 +250,7 @@ const table = {
             Object.keys(data).forEach(data_id => {
                 let td = document.createElement('td');
                 td.innerHTML = data[data_id];
-                if (data_id !== 'id') {
-                    row.append(td);
-                }
+                row.append(td);
             });
 
             let buttons = {

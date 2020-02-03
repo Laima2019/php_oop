@@ -10,7 +10,9 @@ class Navigation extends \Core\View {
         parent::__construct($data);
 
         $this->addLink('left', '/', 'Home');
-        
+        $this->addLink('left', 'test.php', 'Geeks');
+        $this->addLink('left', 'review.php', 'Reviews');
+
         if (App::$session->userLoggedIn()) {
             $user = App::$session->getUser();
             $label = $user->getEmail();

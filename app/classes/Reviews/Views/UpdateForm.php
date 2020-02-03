@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Participants\Views;
+namespace App\Reviews\Views;
 
 class UpdateForm extends BaseForm {
 

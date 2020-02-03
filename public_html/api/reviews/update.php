@@ -12,7 +12,7 @@ if (!App::$session->userLoggedIn()) {
 }
 
 // Filter received data
-$form = (new \App\Participants\Views\ApiForm())->getData();
+$form = (new \App\Reviews\Views\ApiForm())->getData();
 $filtered_input = get_form_input($form);
 validate_form($filtered_input, $form);
 
@@ -26,31 +26,31 @@ validate_form($filtered_input, $form);
  */
 function form_success($filtered_input, &$form) {
     $response = new \Core\Api\Response();
-    $model = new \App\Participants\Model();
+    $model = new \App\Reviews\Model();
 
     $conditions = [
         'row_id' => intval($_POST['id'])
     ];
 
     //gauname areju su $drink objektais (siuo atveju viena objekta arejuje pagal paduota id
-    $participants = $model->get($conditions);
-    if (!$participants) {
+    $reviews = $model->get($conditions);
+    if (!$reviews) {
         $response->addError('Review doesn`t exist!');
     } else {
-        $participant = $participants[0];
+        $review = $reviews[0];
 
         //idedame i data holderi naujas vertes, kurias ivede useris 
         //ir kurios atejo is javascripto
-        $participant->setName($filtered_input['name']);
-        $participant->setSurname($filtered_input['surname']);
-        $participant->setCity($filtered_input['city']);
+        $review->setReview($filtered_input['review']);
         
         //vertes, kurias idejome auksciau i data holderi updatinam 
         //ir duombazeje FileDB ka daro $drinksModel->update($drink) metodas
-        $model->update($participant);
+        $model->update($review);
         
         // Irasom visa dalyvio informacija i response
-        $response->setData($participant->getData());
+        $review_arr = $review->getData();
+        $review_arr['time_stamp'] = date('y-m-d', $review_arr['time_stamp']);
+        $response->setData($review_arr);
     }
     
     $response->print();

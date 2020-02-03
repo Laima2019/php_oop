@@ -8,7 +8,7 @@ $response = new \Core\Api\Response();
 
 if (App::$session->userLoggedIn()) {
 
-    $model = new \App\Participants\Model();
+    $model = new \App\Reviews\Model();
 
     // fetch-as atsiunčia į šitą failą POST metodu duomenis (REQUEST)
     // tie duomenys tai yra formData
@@ -21,10 +21,10 @@ if (App::$session->userLoggedIn()) {
     // bet visada ideda ji i masyva. (nes funkcija pritaikyta atiduoti ir daugiau drinku
     // nei viena)
     // Todel pavadinam variabla ne drink, o drinks.
-    $participants = $model->get(['row_id' => intval($_POST['id'])]);
+    $reviews = $model->get(['row_id' => intval($_POST['id'])]);
 
-    if ($participants) {
-        $person = $participants[0];
+    if ($reviews) {
+        $person = $reviews[0];
         $model->delete($person);
 
         $response->setData($person->getData());

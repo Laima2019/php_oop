@@ -2,15 +2,37 @@
 
 namespace App\Users\Views;
 
-class RegisterForm extends \Core\Views\Form {
+class RegisterForm extends \Core\Views\Form
+{
 
-    public function __construct($data = []) {
+    public function __construct($data = [])
+    {
         $this->data = [
             'attr' => [
                 'id' => 'register-form',
                 'method' => 'POST',
             ],
             'fields' => [
+                'name' => [
+                    'label' => 'Name',
+                    'type' => 'text',
+                    'extra' => [
+                        'validators' => [
+                            'validate_not_empty',
+                            'validate_no_space',
+                        ]
+                    ],
+                ],
+                'surname' => [
+                    'label' => 'Surname',
+                    'type' => 'text',
+                    'extra' => [
+                        'validators' => [
+                            'validate_not_empty',
+                            'validate_no_space',
+                        ]
+                    ],
+                ],
                 'email' => [
                     'label' => 'Email',
                     'type' => 'email',
@@ -19,6 +41,34 @@ class RegisterForm extends \Core\Views\Form {
                             'validate_not_empty',
                             'validate_mail'
                         ]
+                    ],
+                ],
+                'phone' => [
+                    'label' => 'Phone',
+                    'type' => 'text',
+                    'extra' => [
+                        'validators' => [
+                            'validate_not_empty',
+                            'validate_phone_number',
+                        ]
+                    ],
+                ],
+                'country' => [
+                    'label' => 'Country',
+                    'type' => 'select',
+                    'options' => [
+                        'Antarktida',
+                        'Europa',
+                        'Asia',
+                        'Afrika',
+
+                    ],
+                    'extra' => [
+                        'validators' => [
+                            'validate_not_empty',
+                        ],
+                        'placeholder' => 'pasirinkite šalį'
+
                     ],
                 ],
                 'password' => [
@@ -56,5 +106,4 @@ class RegisterForm extends \Core\Views\Form {
             ],
         ];
     }
-
 }
