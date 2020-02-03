@@ -20,23 +20,23 @@ function api(url, formData, success, fail) {
         method: 'POST',
         body: formData
     }).then(response => response.json())
-            .then(obj => {
-                if (obj.status === 'success') {
-                    success(obj.data);
-                } else {
-                    fail(obj.errors);
-                }
-            })
-            .catch(e => {
-                console.log(e);
-                fail(['Could not connect to API!']);
-            });
+        .then(obj => {
+            if (obj.status === 'success') {
+                success(obj.data);
+            } else {
+                fail(obj.errors);
+            }
+        })
+        .catch(e => {
+            console.log(e);
+            fail(['Could not connect to API!']);
+        });
 }
 
 /**
  * Form array
  * Contains all form-related functionality
- * 
+ *
  * Object forms
  */
 const forms = {
@@ -46,7 +46,9 @@ const forms = {
     create: {
         init: function () {
             console.log('Initializing create form...');
-            this.getElement().addEventListener('submit', this.onSubmitListener);
+            if (this.getElement()) {
+                this.getElement().addEventListener('submit', this.onSubmitListener);
+            }
         },
         getElement: function () {
             return document.getElementById("create-form");
@@ -128,9 +130,9 @@ const forms = {
         /**
          * Fills form fields with data
          * Each data index corelates with input name attribute
-         * 
+         *
          * @param {Element} form
-         * @param {Object} data 
+         * @param {Object} data
          */
         fill: function (form, data) {
             form.setAttribute('data-id', data.id);
@@ -153,7 +155,7 @@ const forms = {
         flash: {
             class: function (element, class_name) {
                 const prev = element.className;
-                
+
                 element.className += class_name;
                 setTimeout(function () {
                     element.className = prev;
@@ -167,7 +169,7 @@ const forms = {
             /**
              * Shows errors in form
              * Each error index correlates with input name attribute
-             * 
+             *
              * @param {Element} form
              * @param {Object} errors
              */
@@ -191,7 +193,7 @@ const forms = {
                 const errors = form.querySelectorAll('.field-error');
                 if (errors) {
                     errors.forEach(node => {
-                        node.remove();                 
+                        node.remove();
                     });
                 }
             }
@@ -239,7 +241,7 @@ const table = {
     row: {
         /**
          * Builds row element from data
-         * 
+         *
          * @param {Object} data
          * @returns {Element}
          */
@@ -250,8 +252,8 @@ const table = {
             Object.keys(data).forEach(data_id => {
                 let td = document.createElement('td');
                 td.innerHTML = data[data_id];
-                if(data_id !== 'id')
-                row.append(td);
+                if (data_id !== 'id')
+                    row.append(td);
             });
 
             let buttons = {
@@ -259,18 +261,20 @@ const table = {
                 edit: '✏️'
             };
 
-            Object.keys(buttons).forEach(button_id => {
-                let btn = document.createElement('td');
-                btn.innerHTML = buttons[button_id];
-                btn.className = button_id;
-                row.append(btn);
-            });
-
+            //if (document.getElementById('review-form')) {
+            if (forms.create.getElement()) {
+                Object.keys(buttons).forEach(button_id => {
+                    let btn = document.createElement('td');
+                    btn.innerHTML = buttons[button_id];
+                    btn.className = button_id;
+                    row.append(btn);
+                });
+            }
             return row;
         },
         /**
          * Appends row to table from data
-         * 
+         *
          * @param {Object} data
          */
         append: function (data) {
@@ -279,7 +283,7 @@ const table = {
         /**
          * Updates existing row in table from data
          * Row is selected via "id" index in data
-         * 
+         *
          * @param {Object} data
          */
         update: function (data) {

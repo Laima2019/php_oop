@@ -8,9 +8,7 @@ $updateForm = new \App\Reviews\Views\UpdateForm();
 $navigation = new \App\Views\Navigation();
 $footer = new \App\Views\Footer();
 
-if (!App::$session->userLoggedIn()) {
-    header('Location: /login.php');
-}
+
 ?>
 <html>
 <head>
@@ -29,22 +27,24 @@ if (!App::$session->userLoggedIn()) {
 
 <main>
     <section class="wrapper">
-    <?php if (!App::$session->userLoggedIn())?>
-        <div class="block">
-            <h1>Dalyvių suvestinė:</h1>
-            <?php print $createForm->render(); ?>
-        </div>
+        <?php if (App::$session->userLoggedIn()): ?>
+            <div class="block" id="review-form">
+                <h1>Dalyvių suvestinė:</h1>
+                <?php print $createForm->render(); ?>
+            </div>
+        <?php endif; ?>
         <div class="block">
             <div id="person-table">
                 <table>
                     <thead>
                     <tr>
-                        <th>Nr.</th>
                         <th>Atsiliepimas</th>
                         <th>Data</th>
-                        <th>Ištrinti</th>
-                        <th>Redaguoti</th>
-
+                        <th>User ID</th>
+                        <?php if (App::$session->userLoggedIn()): ?>
+                            <th>Ištrinti</th>
+                            <th>Redaguoti</th>
+                        <?php endif; ?>
                     </tr>
                     </thead>
                     <tbody>
