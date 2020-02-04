@@ -206,7 +206,7 @@ const forms = {
  */
 const table = {
     getElement: function () {
-        return document.querySelector('#person-table tbody');
+        return document.querySelector('#person-table');
     },
     init: function () {
         this.data.load();
@@ -246,14 +246,18 @@ const table = {
          * @returns {Element}
          */
         build: function (data) {
-            const row = document.createElement('tr');
-            row.setAttribute('data-id', data.id);
+
+            const card = document.createElement('div');
+            card.className ='card-container';
+            card.setAttribute('data-id', data.id);
 
             Object.keys(data).forEach(data_id => {
-                let td = document.createElement('td');
-                td.innerHTML = data[data_id];
-                if (data_id !== 'id')
-                    row.append(td);
+                let span = document.createElement('span');
+                span.className = data_id;
+                span.innerHTML = data[data_id];
+                if (data_id !== 'id') {
+                    card.append(span);
+                }
             });
 
             let buttons = {
@@ -267,10 +271,10 @@ const table = {
                     let btn = document.createElement('td');
                     btn.innerHTML = buttons[button_id];
                     btn.className = button_id;
-                    row.append(btn);
+                    card.append(btn);
                 });
             }
-            return row;
+            return card;
         },
         /**
          * Appends row to table from data
@@ -287,8 +291,8 @@ const table = {
          * @param {Object} data
          */
         update: function (data) {
-            let row = table.getElement().querySelector('tr[data-id="' + data.id + '"]');
-            row.replaceWith(this.build(data));
+            let card = table.getElement().querySelector('div[data-id="' + data.id + '"]');
+            card.replaceWith(this.build(data));
             //row = this.build(data);
         },
         /**
@@ -296,8 +300,8 @@ const table = {
          * @param {Integer} id
          */
         delete: function (id) {
-            const row = table.getElement().querySelector('tr[data-id="' + id + '"]');
-            row.remove();
+            const card = table.getElement().querySelector('div[data-id="' + id + '"]');
+            card.remove();
         }
     },
     buttons: {
@@ -312,9 +316,9 @@ const table = {
                 if (e.target.className === 'delete') {
                     let formData = new FormData();
 
-                    let tr = e.target.closest('tr');
+                    let card = e.target.closest('div.card-container');
 
-                    formData.append('id', tr.getAttribute('data-id'));
+                    formData.append('id', card.getAttribute('data-id'));
                     api(endpoints.delete, formData, table.buttons.delete.success, table.buttons.delete.fail);
                 }
             },
@@ -337,9 +341,9 @@ const table = {
                 if (e.target.className === 'edit') {
                     let formData = new FormData();
 
-                    let tr = e.target.closest('tr');
+                    let card = e.target.closest('div.card-container');
 
-                    formData.append('row_id', tr.getAttribute('data-id'));
+                    formData.append('row_id', card.getAttribute('data-id'));
                     api(endpoints.get, formData, table.buttons.edit.success, table.buttons.edit.fail);
                 }
             },

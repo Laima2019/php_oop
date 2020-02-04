@@ -29,28 +29,12 @@ $footer = new \App\Views\Footer();
     <section class="wrapper">
         <?php if (App::$session->userLoggedIn()): ?>
             <div class="block" id="review-form">
-                <h1>Dalyvių suvestinė:</h1>
+                <h1>Review:</h1>
                 <?php print $createForm->render(); ?>
             </div>
         <?php endif; ?>
         <div class="block">
             <div id="person-table">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Atsiliepimas</th>
-                        <th>Data</th>
-                        <th>User ID</th>
-                        <?php if (App::$session->userLoggedIn()): ?>
-                            <th>Ištrinti</th>
-                            <th>Redaguoti</th>
-                        <?php endif; ?>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- Rows Are Dynamically Populated -->
-                    </tbody>
-                </table>
             </div>
         </div>
     </section>

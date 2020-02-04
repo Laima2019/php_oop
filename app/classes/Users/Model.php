@@ -39,6 +39,13 @@ class Model
         return $users;
     }
 
+    public function getById($id){
+        $user_data = App::$db->getRow($this->table_name, $id);
+        $user = new User($user_data);
+        $user->setId($id);
+
+        return $user;
+    }
     /**
      * 4uzd
      * @param Drink $drink

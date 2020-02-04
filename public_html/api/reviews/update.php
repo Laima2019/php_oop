@@ -26,14 +26,18 @@ validate_form($filtered_input, $form);
  */
 function form_success($filtered_input, &$form) {
     $response = new \Core\Api\Response();
-    $model = new \App\Reviews\Model();
+
+    $models = [
+        'user' => new \App\Users\Model(),
+        'review' => new \App\Reviews\Model(),
+    ];
 
     $conditions = [
         'row_id' => intval($_POST['id'])
     ];
 
     //gauname areju su $drink objektais (siuo atveju viena objekta arejuje pagal paduota id
-    $reviews = $model->get($conditions);
+    $reviews = $models['review']->get($conditions);
     if (!$reviews) {
         $response->addError('Review doesn`t exist!');
     } else {
@@ -45,11 +49,16 @@ function form_success($filtered_input, &$form) {
         
         //vertes, kurias idejome auksciau i data holderi updatinam 
         //ir duombazeje FileDB ka daro $drinksModel->update($drink) metodas
-        $model->update($review);
+        $models['review']->update($review);
         
         // Irasom visa dalyvio informacija i response
         $review_arr = $review->getData();
         $review_arr['time_stamp'] = date('y-m-d', $review_arr['time_stamp']);
+
+        $user = $models['user']->getById($review_arr['user_id']);
+        $review_arr['full_name'] = $user->getName() . ' ' . $user->getSurname();
+
+        unset($review_arr['user_id']);
         $response->setData($review_arr);
     }
     
