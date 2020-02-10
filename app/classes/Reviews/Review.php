@@ -15,6 +15,7 @@ class Review {
                 'review' => null,
                 'time_stamp' => null,
                 'user_id' => null,
+                'rate' => null,
             ];
         }
     }
@@ -32,6 +33,8 @@ class Review {
         $this->setReview($array['review'] ?? null);
         $this->setTimeStamp($array['time_stamp'] ?? null);
         $this->setUserId($array['user_id'] ?? null);
+        $this->setRate($array['rate'] ?? null);
+
     }
 
     /**
@@ -44,6 +47,7 @@ class Review {
             'review' => $this->getReview(),
             'time_stamp' => $this->getTimeStamp(),
             'user_id' => $this->getUserId(),
+            'rate' =>$this->getRate(),
         ];
     }
 
@@ -107,4 +111,11 @@ class Review {
         return $this->data['user_id'];
     }
 
+    public function setRate(int $rate) {
+        $this->data['rate'] = $rate;
+    }
+
+    public function getRate() {
+        return $this->data['rate'];
+    }
 }

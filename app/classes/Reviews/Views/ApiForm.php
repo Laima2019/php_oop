@@ -16,6 +16,15 @@ class ApiForm extends \Core\Views\Form
                         ]
                     ]
                 ],
+                'rate' => [
+                    'extra' => [
+                        'validators' => [
+                            'validate_not_empty',
+                            'validate_is_number',
+                            'validate_ranking'
+                        ]
+                    ]
+                ],
     ],
                     'callbacks' => [
                     'success' => 'form_success',

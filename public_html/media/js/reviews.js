@@ -255,10 +255,31 @@ const table = {
                 let span = document.createElement('span');
                 span.className = data_id;
                 span.innerHTML = data[data_id];
-                if (data_id !== 'id') {
+                if (data_id !== 'id' && data_id != 'rate') {
                     card.append(span);
                 }
             });
+            // star ranking
+            // let star = {
+            //     rated: '🌟',
+            //     unrated: '⭐',
+            // };
+            let i;
+            let div = document.createElement('div');
+
+            for (i = 1; i <= 5; i++){
+                let span = document.createElement('span');
+                span.className = 'star';
+                if(i <= data.rate) {
+                    span.innerHTML = '🌟';
+                } else {
+                    span.innerHTML = '⭐';
+                }
+                div.append(span);
+                }
+            card.append(div);
+
+
 
             let buttons = {
                 delete: '🗑️',

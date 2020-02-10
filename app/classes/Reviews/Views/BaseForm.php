@@ -9,7 +9,11 @@ class BaseForm extends \Core\Views\Form {
         $this->data = [
             'fields' => [
                 'review' => [
-                    'label' => 'Review',
+                    'label' => 'Atsiliepimai',
+                    'type' => 'text',
+                ],
+                'rate' => [
+                    'label' => 'Įvertinimas',
                     'type' => 'text',
                 ],
             ],

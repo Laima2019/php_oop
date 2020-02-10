@@ -3,8 +3,8 @@ require '../bootloader.php';
 
 use App\App;
 
-$createForm = new \App\Reviews\Views\CreateForm();
-$updateForm = new \App\Reviews\Views\UpdateForm();
+$createForm = new \App\Products\Views\CreateForm();
+$updateForm = new \App\Products\Views\UpdateForm();
 $navigation = new \App\Views\Navigation();
 $footer = new \App\Views\Footer();
 
@@ -14,7 +14,7 @@ $footer = new \App\Views\Footer();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Užsakymai</title>
     <link rel="stylesheet" href="media/css/normalize.css">
     <link rel="stylesheet" href="media/css/milligram.min.css">
     <link rel="stylesheet" href="media/css/style.css">
@@ -29,12 +29,12 @@ $footer = new \App\Views\Footer();
     <section class="wrapper">
         <?php if (App::$session->userLoggedIn()): ?>
             <div class="block" id="review-form">
-                <h2>Reviews:</h2>
+                <h2>Įveskite produktą:</h2>
                 <?php print $createForm->render(); ?>
             </div>
         <?php endif; ?>
         <div class="block">
-            <div id="person-table">
+            <div id="product-table">
             </div>
         </div>
     </section>
@@ -53,6 +53,6 @@ $footer = new \App\Views\Footer();
     <?php print $footer->render(); ?>
 </footer>
 
-<script defer src="media/js/reviews.js"></script>
+<script defer src="media/js/products.js"></script>
 </body>
 </html>

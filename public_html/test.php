@@ -44,6 +44,10 @@ if (!App::$session->userLoggedIn()) {
                         <th>Lygis</th>
                         <th>Lankomumas</th>
                         <th>Balas</th>
+                        <th>Ištrinti</th>
+                        <th>Redaguoti</th>
+
+
                     </tr>
                     </thead>
                     <tbody>

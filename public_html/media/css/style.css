@@ -1,11 +1,10 @@
-
 /* =============== HEADER =============== */
 
 header {
     background-color: #f5f5f5;
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;
     height: 70px;
 }
 
@@ -22,7 +21,7 @@ nav .link-wrapper {
 
 nav .link-wrapper.active {
     border: 2px solid #21006d;
-    font-weight: bold;    
+    font-weight: bold;
 }
 
 /* =============== MAIN =============== */
@@ -70,8 +69,8 @@ table .delete, table .edit {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
 }
 
 .modal .wrapper {
@@ -102,16 +101,16 @@ form .field-wrapper {
     margin-bottom: 1.5rem;
 }
 
-form .field-error, form .error {   
+form .field-error, form .error {
     color: red;
 }
 
 form .message-wrapper {
-    margin-bottom: 2em;    
+    margin-bottom: 2em;
 }
 
 form button {
-      transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
 form.success button {
@@ -132,12 +131,14 @@ footer {
     align-items: center;
     justify-content: center;
 }
+
 .card-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 180px;
-    height: 200px;
+    position: relative;
+    width: 400px;
+    height: 450px;
     border-radius: 5%;
     border: 3px solid lightslategrey;
     background-color: oldlace;
@@ -145,11 +146,62 @@ footer {
     margin: 20px 20px;
     padding: 10px;
     border-block-start-style: inherit;
-    border-block-end-style: dashed;
+    box-shadow: 10px 10px 5px rosybrown;
 }
-.block {
+
+.review {
+    border: 1px solid black;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+section {
+    display: block;
+}
+
+#person-table {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
+}
 
+.out_of_stock {
+    color: red;
+}
+
+.in_stock {
+    color: green;
+}
+
+.img {
+    width: 100px;
+    height: 150px;
+
+    filter: grayscale(50%);
+
+    /*    max-width: 100%;*/
+    /*    padding: 5px;*/
+}
+
+.product-card-container img {
+    max-width: 100%;
+    padding: 5px;
+    filter: grayscale(100%);
+    transition: all 0.5s ease;
+}
+
+.product-card-container img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+    transition: all 0.5s ease;
+}
+
+#product-table .delete {
+    font-size: 45px;
+}
+
+#product-table .edit {
+    font-size: 50px;
 }

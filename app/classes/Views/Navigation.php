@@ -10,8 +10,10 @@ class Navigation extends \Core\View {
         parent::__construct($data);
 
         $this->addLink('left', '/', 'Home');
-        $this->addLink('left', 'test.php', 'Geeks');
-        $this->addLink('left', 'review.php', 'Reviews');
+        $this->addLink('left', '/test.php', 'Geeks');
+        $this->addLink('left', '/review.php', 'Reviews');
+        $this->addLink('left', '/product.php', 'Products');
+        $this->addLink('right', '/profile.php', 'Edit Profile');
 
         if (App::$session->userLoggedIn()) {
             $user = App::$session->getUser();
@@ -19,7 +21,7 @@ class Navigation extends \Core\View {
             $this->addLink('right', '/logout.php', "Logout($label)");
         } else {
             $this->addLink('right', '/login.php', 'Prisijungti');
-            $this->addLink('right', '/register.php', 'Registruotis');            
+            $this->addLink('right', '/register.php', 'Registruotis');
         }
     }
 

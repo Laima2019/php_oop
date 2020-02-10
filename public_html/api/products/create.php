@@ -12,7 +12,7 @@ if (!App::$session->userLoggedIn()) {
 }
 
 // Filter received data
-$form = (new \App\Reviews\Views\ApiForm())->getData();
+$form = (new \App\Products\Views\ApiForm())->getData();
 $filtered_input = get_form_input($form);
 validate_form($filtered_input, $form);
 
@@ -27,31 +27,24 @@ validate_form($filtered_input, $form);
 function form_success($filtered_input, $form) {
     $response = new \Core\Api\Response();
 
-    $review = new \App\Reviews\Review();
+    $product = new \App\Products\Product($filtered_input);
+
     $models = [
-        'user' => new \App\Users\Model(),
-        'review' => new \App\Reviews\Model(),
-          ];
+        'product' => new \App\Products\Model(),
+      ];
+    //kiekvienas naujai sukurtas produktas turi savo ID,
 
-    $review->setTimeStamp(time());
-    $review->setReview($filtered_input['review']);
-    $review->setUserId(\App\App::$session->getUser()->getId());
-    $review->setRate($filtered_input['rate']);
+    $id = $models['product']->insert($product);
 
-//sukuriame $id, tam, kad butu atskiru useriu atsiliepimai
-    
-    $id = $models['review']->insert($review);
-    $review->setId($id);
+    $product->setId($id);
 
-    $review_arr = $review->getData();
-    $review_arr['time_stamp'] = date('y-m-d', $review_arr['time_stamp']);
+    // getData paima duomenis is dataholderio   public function getData() {
+    //        return [
+    //            'id' => $this->getId(),
+    //            'name' => $this->getName(),
+    $response_data = $product->getData();
 
-    $user = $models['user']->getById($review_arr['user_id']);
-    $review_arr['full_name'] = $user->getName() . ' ' . $user->getSurname();
-
-    unset($review_arr['user_id']);
-
-    $response->setData($review_arr);
+    $response->setData($response_data);
     $response->print();
 }
 

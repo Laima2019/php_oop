@@ -58,8 +58,16 @@ function validate_no_space($field_value, &$field)
 function validate_phone_number($field_value, &$field)
 {
     if (!preg_match("/^\+3706[0-9]{7}$/", $field_value)) {
-    $field['error'] = 'Telefono numeris įvestas neteisingai.';
+        $field['error'] = 'Telefono numeris įvestas neteisingai.';
     } else {
         return true;
     }
+}
+    function validate_ranking($field_value, &$field){
+        if ($field_value < 0 || $field_value > 5 ){
+         $field['error'] = 'Įvertinimas gali būti nuo 0 iki 5.' ;
+        } else {
+        return true;
+
+}
 }

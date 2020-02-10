@@ -38,7 +38,6 @@ if (!App::$session->userLoggedIn()) {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Nr.</th>
                                     <th>Vardas</th>
                                     <th>Pavardė</th>
                                     <th>Miestas</th>

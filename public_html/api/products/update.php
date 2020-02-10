@@ -12,7 +12,7 @@ if (!App::$session->userLoggedIn()) {
 }
 
 // Filter received data
-$form = (new \App\Reviews\Views\ApiForm())->getData();
+$form = (new \App\Products\Views\ApiForm())->getData();
 $filtered_input = get_form_input($form);
 validate_form($filtered_input, $form);
 
@@ -28,8 +28,7 @@ function form_success($filtered_input, &$form) {
     $response = new \Core\Api\Response();
 
     $models = [
-        'user' => new \App\Users\Model(),
-        'review' => new \App\Reviews\Model(),
+       'product' => new \App\products\Model(),
     ];
 
     $conditions = [
@@ -37,31 +36,28 @@ function form_success($filtered_input, &$form) {
     ];
 
     //gauname areju su $drink objektais (siuo atveju viena objekta arejuje pagal paduota id
-    $reviews = $models['review']->get($conditions);
-    if (!$reviews) {
-        $response->addError('Review doesn`t exist!');
+    $products = $models['product']->get($conditions);
+    if (!$products) {
+        $response->addError('product doesn`t exist!');
     } else {
-        $review = $reviews[0];
+        $product = $products[0];
 
         //idedame i data holderi naujas vertes, kurias ivede useris 
         //ir kurios atejo is javascripto
-        $review->setReview($filtered_input['review']);
-        $review->setRate($filtered_input['rate']);
-
+        $product->setName($filtered_input['name']);
+        $product->setPrice($filtered_input['price']);
+        $product->setImg($filtered_input['img']);
+        $product->setInStock($filtered_input['in_stock']);
 
         //vertes, kurias idejome auksciau i data holderi updatinam 
         //ir duombazeje FileDB ka daro $drinksModel->update($drink) metodas
-        $models['review']->update($review);
+        $models['product']->update($product);
         
         // Irasom visa dalyvio informacija i response
-        $review_arr = $review->getData();
-        $review_arr['time_stamp'] = date('y-m-d', $review_arr['time_stamp']);
+        $product_arr = $product->getData();
 
-        $user = $models['user']->getById($review_arr['user_id']);
-        $review_arr['full_name'] = $user->getName() . ' ' . $user->getSurname();
 
-        unset($review_arr['user_id']);
-        $response->setData($review_arr);
+        $response->setData($product_arr);
     }
     
     $response->print();
