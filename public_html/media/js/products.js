@@ -265,9 +265,12 @@ const table = {
                     p.innerHTML = data[data_id];
                     card.append(p);
 
-                } else if (data_id == 'price') {
+                } else if (data_id == 'price' && data.discount > 0) {
                     let p = document.createElement('p');
                     p.className = data_id;
+                    p.className += 'striked';
+
+
                     p.innerHTML = data[data_id] + 'Eur';
                     card.append(p);
 
@@ -296,8 +299,9 @@ const table = {
 
 
             let buttons = {
-                delete: '🗑️',
-                edit: '✏️'
+                delete: '✖',
+                edit: '✏️',
+                order: '️🗑️',
             };
 
             //if (document.getElementById('review-form')) {
@@ -386,6 +390,40 @@ const table = {
                 let person_data = data[0];
                 forms.update.show();
                 forms.update.fill(person_data);
+            },
+            fail: function (errors) {
+                alert(errors[0]);
+            }
+        },
+        order: {
+            init: function () {
+                table.getElement().addEventListener('click', this.onClickListener);
+            },
+            onClickListener: function (e) {
+                if (e.target.className === 'order') {
+                    let formData = new FormData();
+
+                    let card = e.target.closest('div.product-card-container');
+
+                    formData.append('row_id', card.getAttribute('data-id'));
+                    api(endpoints.get, formData, table.buttons.edit.success, table.buttons.order.fail);
+                }
+            },
+            success: function (data) {
+                let product_data = data[0];
+                product_data.in_stock -= 1;
+
+                let formData = new FormData();
+                formData.append('id, produt_data.id');
+                formData.append('name, produt_data.name');
+                formData.append('price, produt_data.price');
+                formData.append('img, produt_data.img');
+                formData.append('in_stock, produt_data.in_stock');
+                formData.append('discount, produt_data.discount');
+
+                api(endpoints.update, formData, forms.update.success, form.update.fail);
+
+
             },
             fail: function (errors) {
                 alert(errors[0]);

@@ -205,3 +205,6 @@ section {
 #product-table .edit {
     font-size: 50px;
 }
+.striked {
+    text-decoration: line-through;
+}
