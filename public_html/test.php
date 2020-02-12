@@ -38,7 +38,7 @@ if (!App::$session->userLoggedIn()) {
                 <table>
                     <thead>
                     <tr>
-                        <th>Nr.</th>
+<!--                        <th>Nr.</th>-->
                         <th>Vardas</th>
                         <th>Pavardė</th>
                         <th>Lygis</th>
@@ -72,6 +72,6 @@ if (!App::$session->userLoggedIn()) {
     <?php print $footer->render(); ?>
 </footer>
 
-<script defer src="media/js/appa.js"></script>
+<script defer src="media/js/geeks.js"></script>
 </body>
 </html>

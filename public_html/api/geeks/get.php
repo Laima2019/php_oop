@@ -16,3 +16,5 @@ if ($geeks !== false) {
     $response->addError('Could not pull data from database!');
 }
 
+$response->print();
+

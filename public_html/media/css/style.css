@@ -164,8 +164,7 @@ section {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-}
+  }
 
 .out_of_stock {
     color: red;
@@ -198,12 +197,19 @@ section {
     transition: all 0.5s ease;
 }
 
+#product-table {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+}
+
 #product-table .delete {
-    font-size: 45px;
+    font-size: 15px;
 }
 
 #product-table .edit {
-    font-size: 50px;
+    font-size: 10px;
 }
 .striked {
     text-decoration: line-through;

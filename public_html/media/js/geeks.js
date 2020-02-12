@@ -248,6 +248,10 @@ const table = {
             row.setAttribute('data-id', data.id);
 
             Object.keys(data).forEach(data_id => {
+
+                if(data_id === 'id') {
+                    return;
+                }
                 let td = document.createElement('td');
                 td.innerHTML = data[data_id];
                 row.append(td);

@@ -1,1 +1,1 @@
-<span>&copy; <?php print date('Y') ?>. Tyler Durden, all rights reserved.</span>
+<span>&copy; <?php print date('Y') ?>. Laimeza Meza, all rights reserved.</span>

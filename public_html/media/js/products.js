@@ -289,7 +289,7 @@ const table = {
                     let discounts = data.price - (data.price * data.discount / 100);
                     let p = document.createElement('p');
                     p.className = discounts;
-                    p.innerHTML = 'Akcija' + discounts.toFixed(2) + 'Eur';
+                    p.innerHTML = 'Dabartinė kaina: ' + discounts.toFixed(2) + 'Eur';
 
                     if (data.discount > 0) {
                         card.append(p);
@@ -403,10 +403,10 @@ const table = {
                 if (e.target.className === 'order') {
                     let formData = new FormData();
 
-                    let card = e.target.closest('div.product-card-container');
+                    let card = e.target.closest('div.card-container');
 
                     formData.append('row_id', card.getAttribute('data-id'));
-                    api(endpoints.get, formData, table.buttons.edit.success, table.buttons.order.fail);
+                    api(endpoints.get, formData, table.buttons.order.success, table.buttons.order.fail);
                 }
             },
             success: function (data) {
@@ -414,16 +414,14 @@ const table = {
                 product_data.in_stock -= 1;
 
                 let formData = new FormData();
-                formData.append('id, produt_data.id');
-                formData.append('name, produt_data.name');
-                formData.append('price, produt_data.price');
-                formData.append('img, produt_data.img');
-                formData.append('in_stock, produt_data.in_stock');
-                formData.append('discount, produt_data.discount');
+                formData.append('id', product_data.id);
+                formData.append('name', product_data.name);
+                formData.append('price', product_data.price);
+                formData.append('img', product_data.img);
+                formData.append('in_stock', product_data.in_stock);
+                formData.append('discount', product_data.discount);
 
-                api(endpoints.update, formData, forms.update.success, form.update.fail);
-
-
+                api(endpoints.update, formData, forms.update.success, forms.update.fail);
             },
             fail: function (errors) {
                 alert(errors[0]);
